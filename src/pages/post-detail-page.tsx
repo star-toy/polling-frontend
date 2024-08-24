@@ -1,12 +1,13 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useParams } from 'react-router-dom';
 import { CircleUserRound } from 'lucide-react';
-import Candidates from '../home-page/existing-poll/candidates';
+import Candidates from '../components/pages/home-page/existing-poll/candidates';
 
-import PollAuthorInfo from '../home-page/existing-poll/poll-author-info';
-import ActionButtons from '../home-page/existing-poll/action-button';
+import PollAuthorInfo from '../components/pages/home-page/existing-poll/poll-author-info';
+import ActionButtons from '../components/pages/home-page/existing-poll/action-button';
 import { Textarea } from '@/components/shadcn-ui/ui/textarea';
 import { Button } from '@/components/shadcn-ui/ui/button';
-import CommentItem from './comment-item';
+import CommentItem from '../components/pages/post-detail-page/comment-item';
 
 interface CommentData {
   id: number;
@@ -22,9 +23,8 @@ const comments: CommentData[] = [
   { id: 3, nickname: '닉네임3', username: '@nickname1012', postedAt: '2h', content: '댓글 내용3' },
 ];
 
-const DetailPage: React.FC = () => {
+const PostDetailPage: React.FC = () => {
   const { id } = useParams();
-  console.log(id);
 
   return (
     <div className="flex flex-col">
@@ -72,4 +72,4 @@ const DetailPage: React.FC = () => {
   );
 };
 
-export default DetailPage;
+export default PostDetailPage;

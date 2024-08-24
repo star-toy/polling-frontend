@@ -1,13 +1,15 @@
 import { CircleUserRound } from 'lucide-react';
-import ExistingPoll from '@/components/shadcn-ui/ui/pages/home-page/existing-poll';
+import ExistingPoll from '@/components/pages/home-page/existing-poll';
 import { MouseEvent } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 interface PollItemProps {
   id: number;
-  onPollItemClick: (id: number) => void;
 }
 
-const PollItem = ({ id, onPollItemClick }: PollItemProps) => {
+const PollItem = ({ id }: PollItemProps) => {
+  const navigate = useNavigate();
+
   const handlePollItemClick = (event: MouseEvent) => {
     if (
       event.target instanceof Element &&
@@ -17,8 +19,7 @@ const PollItem = ({ id, onPollItemClick }: PollItemProps) => {
     ) {
       return;
     }
-
-    onPollItemClick(id);
+    navigate(`/posts/${id}`);
   };
 
   return (
