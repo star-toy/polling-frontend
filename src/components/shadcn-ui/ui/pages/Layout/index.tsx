@@ -1,6 +1,6 @@
 import { Outlet } from 'react-router-dom';
 
-const Layout: React.FC = () => {
+const Layout = () => {
   return (
     <div className="mx-auto h-[1500px] w-[600px] border">
       <header className="flex h-[53px] items-center justify-center">
