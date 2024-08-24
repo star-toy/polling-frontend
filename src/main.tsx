@@ -3,8 +3,8 @@ import { createRoot } from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import './index.css';
 import HomePage from './pages/home-page';
-import DetailPage from './components/shadcn-ui/ui/pages/detail-page';
-import Layout from './components/shadcn-ui/ui/pages/Layout';
+import DetailPage from './pages/post-detail-page';
+import Layout from './components/pages/layout';
 
 const router = createBrowserRouter([
   {
@@ -15,7 +15,7 @@ const router = createBrowserRouter([
         element: <HomePage />,
       },
       {
-        path: '/detail/:id',
+        path: '/posts/:id',
         element: <DetailPage />,
       },
     ],
