@@ -5,6 +5,12 @@ import { Textarea } from '@/components/shadcn-ui/ui/textarea';
 
 import PollLengthSelector from './poll-length-selector';
 
+export interface PollLength {
+  days: number;
+  hours: number;
+  minutes: number;
+}
+
 const PollCreator = () => {
   const [choices, setChoices] = useState(['', '']);
 
@@ -18,7 +24,7 @@ const PollCreator = () => {
     setChoices([...choices, '']);
   };
 
-  const handlePollLengthChange = (length: { days: number; hours: number; minutes: number }) => {
+  const handlePollLengthChange = (length: PollLength) => {
     // TODO: 투표 기간 추가 로직
     console.log(length);
   };
