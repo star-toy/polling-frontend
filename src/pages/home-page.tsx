@@ -1,16 +1,10 @@
 import { CircleUserRound } from 'lucide-react';
-import PollCreator from '@/components/shadcn-ui/ui/pages/home-page/poll-creator';
-import { useNavigate } from 'react-router-dom';
-import PollItem from '@/components/shadcn-ui/ui/pages/home-page/existing-poll/poll-item';
+import PollCreator from '@/components/pages/home-page/poll-creator';
+import PollItem from '@/components/pages/home-page/existing-poll/poll-item';
 
-const pollIds = [123, 124, 125, 126];
+const pollIds = [123, 124, 125];
 
 const HomePage = () => {
-  const navigate = useNavigate();
-  const handlePollItemClick = (id: number) => {
-    navigate(`/detail/${id}`);
-  };
-
   return (
     <div className="flex flex-col">
       <article className="flex px-4">
@@ -20,7 +14,7 @@ const HomePage = () => {
       {pollIds.map((id) => (
         <div key={id}>
           <div className="my-3 border-b" />
-          <PollItem id={id} onPollItemClick={handlePollItemClick} />
+          <PollItem id={id} />
         </div>
       ))}
     </div>
