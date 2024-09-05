@@ -31,13 +31,13 @@ const Banner = () => {
             alt={`${index + 1}번째 배너 이미지`}
             className="h-full w-full rounded-bl-[24px] object-cover"
           />
-          <div className="bg-banner-gradient absolute inset-0 rounded-bl-[24px]" />
+          <div className="absolute inset-0 rounded-bl-[24px] bg-banner-gradient" />
         </div>
       ))}
       <div className="absolute h-full w-full px-4 pb-6 pt-10">
         <h1 className="text-[34px] font-semibold text-white">PollHub</h1>
         <div className="my-4 border-b bg-gray-500 opacity-50"></div>
-        <p className="text-body1 mb-4 text-white">
+        <p className="mb-4 text-body1 text-white">
           아티스트에 대한 관심과 사랑을
           <br /> 공유하는 투표 플랫폼
         </p>
