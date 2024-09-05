@@ -49,13 +49,11 @@ const Banner = () => {
           ))}
         </div>
       </div>
-      <div className="absolute bottom-6 left-[78.5%] flex space-x-1">
+      <div className="absolute bottom-6 left-[78.5%] flex space-x-1 *:h-1 *:rounded-full *:duration-1000">
         {BANNER_IMAGES.map((_, index) => (
           <div
             key={index}
-            className={`h-1 w-1 rounded-full ${
-              index === currentImageIndex ? 'w-8 bg-white' : 'bg-white bg-opacity-50'
-            } duration-1000`}
+            className={`${index === currentImageIndex ? 'w-8 bg-white' : 'w-1 bg-white bg-opacity-50'}`}
           />
         ))}
       </div>
