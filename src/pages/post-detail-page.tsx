@@ -12,7 +12,7 @@ const PostDetailPage = () => {
   };
 
   const handlePollOptionClick = (option: PollOption) => {
-    setSelectedPollOption(option);
+    setSelectedPollOption((prevOption) => (prevOption?.id === option.id ? null : option));
   };
 
   return (
@@ -24,7 +24,6 @@ const PostDetailPage = () => {
         </p>
       </div>
       <img src="../../public/images/image(6).png" className="h-[300px] w-full" />
-
       <div className="px-4 pb-[27px] pt-8">
         {/* 카테고리 선택 버튼 그룹 */}
         <div className="mb-6 flex gap-2">
@@ -39,19 +38,19 @@ const PostDetailPage = () => {
             </Button>
           ))}
         </div>
-
         <p className="mb-2 text-body1">가을 특별 무대에서 보고 싶은 아티스트를 골라주세요.</p>
         <div className="mb-6 border border-gray-200" />
-
         {/* 투표 옵션 그리드 */}
         <div className="grid w-[343px] grid-cols-2 gap-x-[11px] gap-y-4">
           {POLL_OPTIONS.map((option) => (
             <Button
               onClick={() => handlePollOptionClick(option)}
-              variant="pollOption"
+              variant="ghost"
               size="pollOption"
               // TODO: 투표 선택 시 내부 콘텐츠가 흔들리는 현상 수정하기 (border 때문인 것 같음)
-              className={`relative flex-col ${selectedPollOption?.id === option.id && 'shadow-custom border-2 border-gray-800'}`}
+              className={`relative flex-col overflow-hidden rounded-lg transition duration-300 ease-in-out ${
+                selectedPollOption?.id === option.id && 'border border-gray-800 shadow-custom'
+              }`}
               key={option.id}
             >
               <img
@@ -59,22 +58,26 @@ const PostDetailPage = () => {
                 alt={option.content}
                 className="h-[140px] w-full object-cover"
               />
-              <div className="bg-white p-2">
+              <div className="w-full rounded-b-lg border border-gray-200 bg-gray-50 px-4 py-2">
                 <span
-                  className={`text-center text-caption1 text-gray-700 ${selectedPollOption?.id === option.id && 'text-black'}`}
+                  className={`flex items-center justify-center text-caption1 transition-colors duration-300 ${
+                    selectedPollOption?.id === option.id ? 'text-black' : 'text-gray-700'
+                  }`}
                 >
                   {option.content}
                 </span>
               </div>
-              {/* 선택된 옵션에 대한 득표율 오버레이 */}
-              {selectedPollOption && (
-                <div className="absolute left-0 top-0 flex h-[140px] w-full items-center justify-center bg-banner-gradient">
-                  <div className="flex flex-col items-center">
-                    <span className="text-caption2 text-gray-50">득표율</span>
-                    <span className="text-subTitle3 text-gray-50">{option.pollingRate}%</span>
-                  </div>
+              {/*전체 옵션에 대한 득표율 오버레이 */}
+              <div
+                className={`absolute left-0 top-0 flex h-[140px] w-full items-center justify-center bg-banner-gradient transition duration-300 ease-in-out ${
+                  selectedPollOption ? 'opacity-100' : 'opacity-0'
+                }`}
+              >
+                <div className="flex flex-col items-center">
+                  <span className="text-caption2 text-gray-50">득표율</span>
+                  <span className="text-subTitle3 text-gray-50">{option.pollingRate}%</span>
                 </div>
-              )}
+              </div>
             </Button>
           ))}
         </div>
