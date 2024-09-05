@@ -1,6 +1,5 @@
-import HeaderWithoutArrow from '@/components/header/header-without-arrow';
-
 import { Outlet, useLocation } from 'react-router-dom';
+import HeaderWithoutArrow from '@/components/header/header-without-arrow';
 import HeaderWithArrow from '../header/header-with-arrow';
 
 const Layout = () => {
