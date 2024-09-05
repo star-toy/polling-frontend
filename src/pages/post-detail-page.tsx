@@ -47,9 +47,10 @@ const PostDetailPage = () => {
               onClick={() => handlePollOptionClick(option)}
               variant="ghost"
               size="pollOption"
-              // TODO: 투표 선택 시 내부 콘텐츠가 흔들리는 현상 수정하기 (border 때문인 것 같음)
-              className={`relative flex-col overflow-hidden rounded-lg transition duration-300 ease-in-out ${
-                selectedPollOption?.id === option.id && 'border border-gray-800 shadow-custom'
+              className={`relative flex-col overflow-hidden rounded-lg transition duration-300 ease-in-out before:absolute before:inset-0 before:rounded-lg before:transition-all before:duration-300 ${
+                selectedPollOption?.id === option.id
+                  ? 'before:border before:border-gray-800 before:shadow-custom'
+                  : 'before:border-0'
               }`}
               key={option.id}
             >
