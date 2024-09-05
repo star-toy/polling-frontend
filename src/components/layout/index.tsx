@@ -7,7 +7,7 @@ const Layout = () => {
   const isMainPage = location.pathname === '/';
 
   return (
-    <div className="mx-auto w-[375px]">
+    <div className="mx-auto w-[390px]">
       {isMainPage ? <HeaderWithoutArrow /> : <HeaderWithArrow />}
       <Outlet />
     </div>
