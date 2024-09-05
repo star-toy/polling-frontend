@@ -12,6 +12,10 @@ module.exports = {
         'banner-gradient':
           'linear-gradient(0deg, rgba(0, 0, 0, 0.60) 0%, rgba(0, 0, 0, 0.60) 100%)',
       },
+      boxShadow: {
+        'custom':
+          '8px 8px 12px 0px rgba(0, 0, 0, 0.10), 6px 6px 10px 0px rgba(255, 255, 255, 0.25)',
+      },
       fontFamily: {
         sans: [
           'Pretendard Variable',
