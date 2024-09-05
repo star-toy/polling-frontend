@@ -3,12 +3,16 @@ import { createRoot } from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import Layout from './components/layout';
 import MainPage from './pages/main-page';
+import NotFoundPage from './components/pages/not-found-page';
 import '../app/globals.css';
 
 const router = createBrowserRouter([
   {
     element: <Layout />,
-    children: [{ path: '/', element: <MainPage /> }],
+    children: [
+      { path: '/', element: <MainPage /> },
+      { path: '*', element: <NotFoundPage /> },
+    ],
   },
 ]);
 
