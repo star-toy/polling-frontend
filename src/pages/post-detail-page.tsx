@@ -30,8 +30,8 @@ const PostDetailPage = () => {
           {['아티스트', '노래', '음악방송'].map((category) => (
             <Button
               key={category}
-              className={`${selectedPollCategory === category && 'border-black bg-black text-white'}`}
-              variant="pollCategory"
+              variant={selectedPollCategory === category ? 'pollCategorySelected' : 'pollCategory'}
+              font="text-body2"
               onClick={() => handlePollCategoryClick(category)}
             >
               {category}
