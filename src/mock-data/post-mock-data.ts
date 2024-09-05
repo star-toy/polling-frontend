@@ -1,17 +1,17 @@
-export interface PollItem {
+export interface PollItemType {
   id: number;
   image: string;
   title: string;
 }
 
-export interface PollOption {
+export interface PollOptionType {
   id: number;
   image: string;
   content: string;
   pollingRate: number;
 }
 
-export const POLL_ITEMS: PollItem[] = [
+export const POLL_ITEMS: PollItemType[] = [
   {
     id: 1,
     image: '../../public/images/image(2).png',
@@ -26,7 +26,7 @@ export const POLL_ITEMS: PollItem[] = [
   { id: 4, image: '../../public/images/image(5).png', title: '역대급 K-POP 무대를 골라주세요!' },
 ];
 
-export const POLL_OPTIONS: PollOption[] = [
+export const POLL_OPTIONS: PollOptionType[] = [
   {
     id: 1,
     image: '../../public/images/sister-image.png',
