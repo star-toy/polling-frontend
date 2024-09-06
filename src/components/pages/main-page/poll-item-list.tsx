@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { POLL_ITEMS } from '@/mock-data/post-mock-data';
+import { ROUTES } from '@/constants/routes';
 
 const PollItemList = () => {
   return (
@@ -8,7 +9,7 @@ const PollItemList = () => {
       <div className="mb-14 flex justify-center">
         <div className="grid w-[343px] grid-cols-2 gap-x-[11px] gap-y-6">
           {POLL_ITEMS.map((item) => (
-            <Link key={item.id} to={`/posts/${item.id}`}>
+            <Link key={item.id} to={ROUTES.POST_DETAIL.replace(':id', item.id.toString())}>
               <img
                 src={item.image}
                 alt={item.title}

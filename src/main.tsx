@@ -6,17 +6,18 @@ import MainPage from './pages/main-page';
 import PostDetailPage from './pages/post-detail-page';
 import NotFoundPage from './components/pages/not-found-page';
 import '../app/globals.css';
+import { ROUTES } from './constants/routes';
 
 const router = createBrowserRouter([
   {
     element: <Layout />,
     children: [
-      { path: '/', element: <MainPage /> },
+      { path: ROUTES.MAIN, element: <MainPage /> },
       {
-        path: '/posts/:id',
+        path: ROUTES.POST_DETAIL,
         element: <PostDetailPage />,
       },
-      { path: '*', element: <NotFoundPage /> },
+      { path: ROUTES.NOT_FOUND, element: <NotFoundPage /> },
     ],
   },
 ]);
