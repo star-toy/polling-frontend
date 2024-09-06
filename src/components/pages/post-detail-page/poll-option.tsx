@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Button } from '@/components/shadcn-ui/ui/button';
 import { PollOptionType } from '@/mock-data/post-mock-data';
 import { POLL_OPTIONS } from '@/mock-data/post-mock-data';
+import Overlay from '@/components/overlay';
 
 const PollOption = () => {
   const [selectedPollOption, setSelectedPollOption] = useState<PollOptionType | null>(null);
@@ -35,16 +36,7 @@ const PollOption = () => {
           </div>
 
           {/*전체 옵션에 대한 득표율 오버레이 */}
-          <div
-            className={`absolute left-0 top-0 flex h-[140px] w-full items-center justify-center bg-banner-gradient transition duration-300 ease-in-out ${
-              selectedPollOption ? 'opacity-100' : 'opacity-0'
-            }`}
-          >
-            <div className="flex flex-col items-center">
-              <span className="text-caption2 text-gray-50">득표율</span>
-              <span className="text-subTitle3 text-gray-50">{option.pollingRate}%</span>
-            </div>
-          </div>
+          <Overlay option={option} selectedPollOption={selectedPollOption} />
         </Button>
       ))}
     </div>
