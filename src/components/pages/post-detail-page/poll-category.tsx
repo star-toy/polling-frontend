@@ -6,6 +6,9 @@ const POLL_CATEGORIES = ['아티스트', '노래', '음악방송'];
 const PollCategory = () => {
   const [selectedPollCategory, setSelectedPollCategory] = useState('아티스트');
 
+  const getPollCategoryVariant = (selectedPollCategory: string, category: string) =>
+    selectedPollCategory === category ? 'pollCategorySelected' : 'pollCategory';
+
   const handlePollCategoryClick = (category: string) => {
     setSelectedPollCategory(category);
   };
@@ -15,7 +18,7 @@ const PollCategory = () => {
       {POLL_CATEGORIES.map((category) => (
         <Button
           key={category}
-          variant={selectedPollCategory === category ? 'pollCategorySelected' : 'pollCategory'}
+          variant={getPollCategoryVariant(selectedPollCategory, category)}
           font="text-body2"
           onClick={() => handlePollCategoryClick(category)}
         >
