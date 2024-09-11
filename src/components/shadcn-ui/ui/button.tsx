@@ -19,14 +19,14 @@ const buttonVariants = cva(
         // TODO: icon size 추가
       },
       font: {
-        'text-subTitle1': 'subTitle1',
-        'text-subTitle2': 'subTitle2',
-        'text-subTitle3': 'subTitle3',
-        'text-subTitle4': 'subTitle4',
-        'text-body1': 'body1',
-        'text-body2': 'body2',
-        'text-caption1': 'caption1',
-        'text-caption2': 'caption2',
+        'text-subTitle1': 'text-[28px] leading-[150%] font-semibold',
+        'text-subTitle2': 'text-[24px] leading-[150%] font-semibold',
+        'text-subTitle3': 'text-[20px] leading-[150%] font-semibold',
+        'text-subTitle4': 'text-[16px] leading-[150%] font-semibold',
+        'text-body1': 'text-[16px] leading-[150%] font-medium',
+        'text-body2': 'text-[14px] leading-[150%] font-normal',
+        'text-caption1': 'text-[14px] leading-[150%] font-semibold',
+        'text-caption2': 'text-[13px] leading-[120%] font-semibold',
       },
     },
     defaultVariants: {
@@ -44,11 +44,11 @@ export interface ButtonProps
 }
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, variant, size, font, asChild = false, ...props }, ref) => {
+  ({ className, variant, chipVariant, size, font, asChild = false, ...props }, ref) => {
     const Comp = asChild ? Slot : 'button';
     return (
       <Comp
-        className={cn(buttonVariants({ variant, size, font, className }))}
+        className={cn(buttonVariants({ variant, chipVariant, size, font, className }))}
         ref={ref}
         {...props}
       />
