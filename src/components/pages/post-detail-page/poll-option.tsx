@@ -18,10 +18,8 @@ const PollOption = () => {
           key={option.id}
           variant="ghost"
           size="pollOption"
-          className={`relative flex-col overflow-hidden rounded-lg transition duration-300 ease-in-out before:absolute before:inset-0 before:rounded-lg before:transition-all before:duration-300 ${
-            selectedPollOption?.id === option.id
-              ? 'shadow-custom before:border before:border-gray-800'
-              : 'before:border-0'
+          className={`relative flex-col overflow-hidden rounded-lg transition duration-300 ease-in-out ${
+            selectedPollOption?.id === option.id && 'ring-1 ring-gray-800'
           }`}
           onClick={() => handlePollOptionClick(option)}
         >
