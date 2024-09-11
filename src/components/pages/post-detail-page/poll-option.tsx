@@ -16,16 +16,15 @@ const PollOption = () => {
       {POLL_OPTIONS.map((option) => (
         <Button
           key={option.id}
-          size="card"
           className={`relative flex-col overflow-hidden rounded-lg transition duration-300 ease-in-out ${
             selectedPollOption?.id === option.id && 'ring-1 ring-gray-800'
           }`}
           onClick={() => handlePollOptionClick(option)}
         >
           <img src={option.image} alt={option.content} className="h-[140px] w-full object-cover" />
-          <div className="w-full rounded-b-lg border border-gray-200 bg-gray-50 px-4 py-2">
+          <div className="flex min-h-[37px] w-full items-center justify-center rounded-b-lg border border-gray-200 bg-gray-50">
             <span
-              className={`flex items-center justify-center text-caption1 transition-colors duration-300 ${
+              className={`text-caption1 transition-colors duration-300 ${
                 selectedPollOption?.id === option.id ? 'text-black' : 'text-gray-700'
               }`}
             >
