@@ -10,8 +10,9 @@ const PollOption = () => {
   const handlePollOptionClick = (option: PollOptionType) => {
     setSelectedPollOption((prevOption) => (prevOption?.id === option.id ? null : option));
   };
+
   return (
-    <div className="grid w-[343px] grid-cols-2 gap-x-[11px] gap-y-4">
+    <div className="grid w-[358px] grid-cols-2 gap-x-[16px] gap-y-4">
       {POLL_OPTIONS.map((option) => (
         <Button
           key={option.id}
