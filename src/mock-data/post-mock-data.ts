@@ -29,14 +29,14 @@ export const POLL_ITEMS: PollItemType[] = [
 export const POLL_OPTIONS: PollOptionType[] = [
   {
     id: 1,
-    image: '../../public/images/sister-image.png',
-    content: '씨스타',
+    image: '../../public/images/newjeans-image.png',
+    content: '뉴진스',
     pollingRate: 50,
   },
   {
     id: 2,
-    image: '../../public/images/newjeans-image.png',
-    content: '뉴진스',
+    image: '../../public/images/sister-image.png',
+    content: '씨스타',
     pollingRate: 20,
   },
   {
