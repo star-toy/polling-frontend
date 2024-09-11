@@ -9,14 +9,12 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        pollCategory: 'rounded-2xl border border-gray-300 bg-gray-50',
-        pollCategorySelected: 'rounded-2xl border border-black bg-black text-white',
-        ghost: 'bg-transparent',
+        chip: 'rounded-2xl px-4 py-[4.5px]',
       },
-      size: {
-        pollCategory: 'px-4 py-[4.5px]',
-        pollOption: 'min-h-[177px] w-[166px]',
-        // TODO: icon size 추가
+      // Chip
+      chipVariant: {
+        primary: 'border border-gray-300 bg-gray-50',
+        secondary: 'border border-black bg-black text-white',
       },
       font: {
         'text-subTitle1': 'text-[28px] leading-[150%] font-semibold',
@@ -41,11 +39,11 @@ export interface ButtonProps
 }
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, variant, chipVariant, size, font, asChild = false, ...props }, ref) => {
+  ({ className, variant, chipVariant, font, asChild = false, ...props }, ref) => {
     const Comp = asChild ? Slot : 'button';
     return (
       <Comp
-        className={cn(buttonVariants({ variant, chipVariant, size, font, className }))}
+        className={cn(buttonVariants({ variant, chipVariant, font, className }))}
         ref={ref}
         {...props}
       />
