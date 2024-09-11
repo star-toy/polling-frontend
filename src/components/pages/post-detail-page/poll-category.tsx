@@ -9,6 +9,9 @@ const PollCategory = () => {
   const getPollCategoryVariant = (selectedPollCategory: string, category: string) =>
     selectedPollCategory === category ? 'secondary' : 'primary';
 
+  const getPollCategoryFont = (selectedPollCategory: string, category: string) =>
+    selectedPollCategory === category ? 'text-caption1' : 'text-body2';
+
   const handlePollCategoryClick = (category: string) => {
     setSelectedPollCategory(category);
   };
@@ -20,7 +23,7 @@ const PollCategory = () => {
           key={category}
           variant="chip"
           chipVariant={getPollCategoryVariant(selectedPollCategory, category)}
-          font="text-body2"
+          font={getPollCategoryFont(selectedPollCategory, category)}
           onClick={() => handlePollCategoryClick(category)}
         >
           {category}
