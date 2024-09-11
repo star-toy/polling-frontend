@@ -25,8 +25,10 @@ const buttonVariants = cva(
         'text-subTitle4': 'text-[16px] leading-[150%] font-semibold',
         'text-body1': 'text-[16px] leading-[150%] font-medium',
         'text-body2': 'text-[14px] leading-[150%] font-normal',
+        'text-body3': 'text-[14px] leading-[150%] font-medium',
         'text-caption1': 'text-[14px] leading-[150%] font-semibold',
         'text-caption2': 'text-[13px] leading-[120%] font-semibold',
+        'text-caption3': 'text-[13px] leading-[120%] font-medium',
       },
     },
     defaultVariants: {
