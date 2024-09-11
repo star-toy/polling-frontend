@@ -16,7 +16,7 @@ const PollOption = () => {
       {POLL_OPTIONS.map((option) => (
         <Button
           key={option.id}
-          size="pollOption"
+          size="card"
           className={`relative flex-col overflow-hidden rounded-lg transition duration-300 ease-in-out ${
             selectedPollOption?.id === option.id && 'ring-1 ring-gray-800'
           }`}
