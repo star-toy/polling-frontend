@@ -31,11 +31,6 @@ const buttonVariants = cva(
         'text-caption3': 'text-[13px] leading-[120%] font-medium',
       },
     },
-    defaultVariants: {
-      variant: 'pollCategory',
-      size: 'pollCategory',
-      font: 'text-subTitle4',
-    },
   },
 );
 
