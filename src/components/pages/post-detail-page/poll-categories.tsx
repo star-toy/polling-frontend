@@ -1,10 +1,12 @@
 import { useState } from 'react';
 import { Button } from '@/components/shadcn-ui/ui/button';
 
-const POLL_CATEGORIES = ['아티스트', '노래', '음악방송'];
+interface PollCategoriesProps {
+  categories: string[];
+}
 
-const PollCategories = () => {
-  const [selectedPollCategory, setSelectedPollCategory] = useState('아티스트');
+const PollCategories = ({ categories }: PollCategoriesProps) => {
+  const [selectedPollCategory, setSelectedPollCategory] = useState(categories[0]);
 
   const getPollCategoryVariant = (selectedPollCategory: string, category: string) =>
     selectedPollCategory === category ? 'secondary' : 'primary';
@@ -18,7 +20,7 @@ const PollCategories = () => {
 
   return (
     <div className="mb-6 flex gap-2">
-      {POLL_CATEGORIES.map((category) => (
+      {categories.map((category) => (
         <Button
           key={category}
           variant="chip"
