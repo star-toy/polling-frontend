@@ -47,3 +47,5 @@ export const POLL_OPTIONS: PollOptionType[] = [
   },
   { id: 4, image: '../../public/images/twice-image.png', content: '트와이스', pollingRate: 10 },
 ];
+
+export const POLL_CATEGORIES = ['아티스트', '노래', '음악방송'];
