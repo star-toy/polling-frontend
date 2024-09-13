@@ -4,7 +4,7 @@ import { PollOptionType } from '@/mock-data/post-mock-data';
 import { POLL_OPTIONS } from '@/mock-data/post-mock-data';
 import Overlay from '@/components/overlay';
 
-const PollOption = () => {
+const PollOptions = () => {
   const [selectedPollOption, setSelectedPollOption] = useState<PollOptionType | null>(null);
 
   const handlePollOptionClick = (option: PollOptionType) => {
@@ -24,7 +24,7 @@ const PollOption = () => {
           <img src={option.image} alt={option.content} className="h-[140px] w-full object-cover" />
           <div className="flex min-h-[37px] w-full items-center justify-center rounded-b-lg border border-gray-200 bg-gray-50">
             <span
-              className={`text-caption1 transition-colors duration-300 ${
+              className={`text-caption-1 transition-colors duration-300 ${
                 selectedPollOption?.id === option.id ? 'text-black' : 'text-gray-700'
               }`}
             >
@@ -40,4 +40,4 @@ const PollOption = () => {
   );
 };
 
-export default PollOption;
+export default PollOptions;
