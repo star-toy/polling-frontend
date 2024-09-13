@@ -3,14 +3,14 @@ import { Button } from '@/components/shadcn-ui/ui/button';
 
 const POLL_CATEGORIES = ['아티스트', '노래', '음악방송'];
 
-const PollCategory = () => {
+const PollCategories = () => {
   const [selectedPollCategory, setSelectedPollCategory] = useState('아티스트');
 
   const getPollCategoryVariant = (selectedPollCategory: string, category: string) =>
     selectedPollCategory === category ? 'secondary' : 'primary';
 
   const getPollCategoryFont = (selectedPollCategory: string, category: string) =>
-    selectedPollCategory === category ? 'text-caption1' : 'text-body2';
+    selectedPollCategory === category ? 'caption-1' : 'body-2';
 
   const handlePollCategoryClick = (category: string) => {
     setSelectedPollCategory(category);
@@ -33,4 +33,4 @@ const PollCategory = () => {
   );
 };
 
-export default PollCategory;
+export default PollCategories;
