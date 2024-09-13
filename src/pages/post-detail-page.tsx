@@ -1,5 +1,6 @@
-import PollCategoryButtons from '@/components/pages/post-detail-page/poll-category';
-import PollOptionButtons from '@/components/pages/post-detail-page/poll-option';
+import PollCategories from '@/components/pages/post-detail-page/poll-categories';
+import PollOptions from '@/components/pages/post-detail-page/poll-options';
+import { POLL_CATEGORIES } from '@/mock-data/post-mock-data';
 
 const PostDetailPage = () => {
   return (
@@ -15,10 +16,10 @@ const PostDetailPage = () => {
 
       {/* 투표 컨텐츠 섹션 */}
       <div className="px-4 pb-[27px] pt-8">
-        <PollCategoryButtons />
+        <PollCategories categories={POLL_CATEGORIES} />
         <p className="text-body-1 mb-2">가을 특별 무대에서 보고 싶은 아티스트를 골라주세요.</p>
         <div className="mb-6 border border-gray-200" />
-        <PollOptionButtons />
+        <PollOptions />
       </div>
     </>
   );
