@@ -9,7 +9,7 @@ const PollCategories = ({ categories }: PollCategoriesProps) => {
   const [selectedPollCategory, setSelectedPollCategory] = useState(categories[0]);
 
   const getPollCategoryVariant = (selectedPollCategory: string, category: string) =>
-    selectedPollCategory === category ? 'secondary' : 'primary';
+    selectedPollCategory === category ? 'chip-secondary' : 'chip-primary';
 
   const getPollCategoryFont = (selectedPollCategory: string, category: string) =>
     selectedPollCategory === category ? 'caption-1' : 'body-2';
@@ -23,8 +23,7 @@ const PollCategories = ({ categories }: PollCategoriesProps) => {
       {categories.map((category) => (
         <Button
           key={category}
-          variant="chip"
-          chipVariant={getPollCategoryVariant(selectedPollCategory, category)}
+          variant={getPollCategoryVariant(selectedPollCategory, category)}
           font={getPollCategoryFont(selectedPollCategory, category)}
           onClick={() => handlePollCategoryClick(category)}
         >
