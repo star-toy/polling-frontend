@@ -5,7 +5,7 @@ import { createRoute } from '@/constants/routes';
 const PollItemList = () => {
   return (
     <>
-      <h2 className="mb-6 ml-4 text-subTitle3">투표</h2>
+      <h2 className="text-sub-title-3 mb-6 ml-4">투표</h2>
       <div className="mb-14 flex justify-center">
         <div className="grid w-[358px] grid-cols-2 gap-x-[16px] gap-y-6">
           {POLL_ITEMS.map((item) => (
@@ -15,7 +15,7 @@ const PollItemList = () => {
                 alt={item.title}
                 className="mb-2 h-[171px] w-full rounded-lg object-cover"
               />
-              <p className="line-clamp-2 text-caption1">{item.title}</p>
+              <p className="text-caption-1 line-clamp-2">{item.title}</p>
             </Link>
           ))}
         </div>
