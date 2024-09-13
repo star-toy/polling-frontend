@@ -9,12 +9,9 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        chip: 'rounded-2xl px-4 py-[4.5px]',
-      },
-      // Chip
-      chipVariant: {
-        primary: 'border border-gray-300 bg-gray-50',
-        secondary: 'border border-black bg-black text-white',
+        default: '',
+        'chip-primary': 'rounded-2xl px-4 py-[4.5px] border border-gray-300 bg-gray-50',
+        'chip-secondary': 'rounded-2xl px-4 py-[4.5px] border border-black bg-black text-white',
       },
       font: {
         'sub-title-1': 'text-[28px] leading-[150%] font-semibold',
@@ -29,6 +26,10 @@ const buttonVariants = cva(
         'caption-3': 'text-[13px] leading-[120%] font-medium',
       },
     },
+    defaultVariants: {
+      variant: 'default',
+      font: 'sub-title-4',
+    },
   },
 );
 
@@ -39,14 +40,10 @@ export interface ButtonProps
 }
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, variant, chipVariant, font, asChild = false, ...props }, ref) => {
+  ({ className, variant, font, asChild = false, ...props }, ref) => {
     const Comp = asChild ? Slot : 'button';
     return (
-      <Comp
-        className={cn(buttonVariants({ variant, chipVariant, font, className }))}
-        ref={ref}
-        {...props}
-      />
+      <Comp className={cn(buttonVariants({ variant, font, className }))} ref={ref} {...props} />
     );
   },
 );
