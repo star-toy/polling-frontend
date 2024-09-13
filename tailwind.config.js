@@ -12,6 +12,10 @@ module.exports = {
         'banner-gradient':
           'linear-gradient(0deg, rgba(0, 0, 0, 0.60) 0%, rgba(0, 0, 0, 0.60) 100%)',
       },
+      boxShadow: {
+        'custom':
+          '8px 8px 12px 0px rgba(0, 0, 0, 0.10), 6px 6px 10px 0px rgba(255, 255, 255, 0.25)',
+      },
       fontFamily: {
         sans: [
           'Pretendard Variable',
@@ -46,14 +50,16 @@ module.exports = {
         },
       },
       fontSize: {
-        'subTitle1': ['28px', { lineHeight: '150%', fontWeight: '600' }],
-        'subTitle2': ['24px', { lineHeight: '150%', fontWeight: '600' }],
-        'subTitle3': ['20px', { lineHeight: '150%', fontWeight: '600' }],
-        'subTitle4': ['16px', { lineHeight: '150%', fontWeight: '600' }],
-        'body1': ['16px', { lineHeight: '150%', fontWeight: '500' }],
-        'body2': ['14px', { lineHeight: '150%', fontWeight: '400' }],
-        'caption1': ['14px', { lineHeight: '150%', fontWeight: '600' }],
-        'caption2': ['13px', { lineHeight: '120%', fontWeight: '600' }],
+        'sub-title-1': ['28px', { lineHeight: '150%', fontWeight: '600' }],
+        'sub-title-2': ['24px', { lineHeight: '150%', fontWeight: '600' }],
+        'sub-title-3': ['20px', { lineHeight: '150%', fontWeight: '600' }],
+        'sub-title-4': ['16px', { lineHeight: '150%', fontWeight: '600' }],
+        'body-1': ['16px', { lineHeight: '150%', fontWeight: '500' }],
+        'body-2': ['14px', { lineHeight: '150%', fontWeight: '400' }],
+        'body-3': ['14px', { lineHeight: '150%', fontWeight: '500' }],
+        'caption-1': ['14px', { lineHeight: '150%', fontWeight: '600' }],
+        'caption-2': ['13px', { lineHeight: '120%', fontWeight: '600' }],
+        'caption-3': ['13px', { lineHeight: '120%', fontWeight: '500' }],
       },
     },
   },

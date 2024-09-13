@@ -1,11 +1,14 @@
-import { Outlet } from 'react-router-dom';
+import { Outlet, useLocation } from 'react-router-dom';
+import HeaderWithoutArrow from '@/components/header/header-without-arrow';
+import HeaderWithArrow from '../header/header-with-arrow';
 
 const Layout = () => {
+  const location = useLocation();
+  const isMainPage = location.pathname === '/';
+
   return (
-    <div className="mx-auto w-[375px]">
-      <header className="flex h-[56px] items-center justify-center">
-        <h1 className="text-lg font-extrabold text-gray-800">POLLHUB</h1>
-      </header>
+    <div className="mx-auto w-[390px]">
+      {isMainPage ? <HeaderWithoutArrow /> : <HeaderWithArrow />}
       <Outlet />
     </div>
   );
