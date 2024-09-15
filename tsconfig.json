@@ -1,19 +1,38 @@
 {
-  "files": [],
-  "references": [
-    {
-      "path": "./tsconfig.app.json"
-    },
-    {
-      "path": "./tsconfig.node.json"
-    }
-  ],
   "compilerOptions": {
-    "baseUrl": ".",
+    "target": "es5",
+    "lib": ["esnext", "DOM", "DOM.Iterable"],
+    "allowJs": true,
+    "module": "ESNext",
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "moduleResolution": "bundler",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "jsx": "preserve",
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true,
     "paths": {
       "@/*": ["./src/*"]
     },
-    "types": ["vite-plugin-svgr/client"]
+    "incremental": true,
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ]
   },
-  "include": ["images.d.ts"]
+  "include": [
+    "./src",
+    "next-env.d.ts",
+    "next.config.mjs",
+    ".next/types/**/*.ts",
+    "**/*.ts",
+    "**/*.tsx"
+  ],
+  "exclude": ["./node_modules"]
 }
