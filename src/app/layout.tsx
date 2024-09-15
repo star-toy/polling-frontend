@@ -3,6 +3,7 @@
 import { usePathname } from 'next/navigation';
 import HeaderWithoutArrow from '@/components/header/header-without-arrow';
 import HeaderWithArrow from '@/components/header/header-with-arrow';
+import '../styles/globals.css';
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   const pathName = usePathname();

@@ -1,7 +1,7 @@
 'use client';
 
 import dynamic from 'next/dynamic';
-import '../styles/globals.css';
+// import '../styles/globals.css';
 
 const MainPage = dynamic(() => import('./main-page/page'));
 
