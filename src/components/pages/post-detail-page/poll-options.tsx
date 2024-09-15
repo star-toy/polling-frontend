@@ -1,4 +1,7 @@
+'use client';
+
 import { useState } from 'react';
+import Image from 'next/image';
 import { Button } from '@/components/shadcn-ui/ui/button';
 import { PollOptionType } from '@/mock-data/post-mock-data';
 import { POLL_OPTIONS } from '@/mock-data/post-mock-data';
@@ -21,7 +24,15 @@ const PollOptions = () => {
           }`}
           onClick={() => handlePollOptionClick(option)}
         >
-          <img src={option.image} alt={option.content} className="h-[140px] w-full object-cover" />
+          <Image
+            src={option.image}
+            alt={option.content}
+            width={390}
+            height={140}
+            placeholder="blur"
+            blurDataURL={option.image}
+            className="object-cover"
+          />
           <div className="flex min-h-[37px] w-full items-center justify-center rounded-b-lg border border-gray-200 bg-gray-50">
             <span
               className={`text-caption-1 transition-colors duration-300 ${
