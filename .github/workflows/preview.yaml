@@ -22,4 +22,11 @@ jobs:
         run: vercel build --token=${{ secrets.VERCEL_TOKEN }}
 
       - name: Deploy Project Artifacts to Vercel
+        id: deploy
         run: vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }}
+
+      - name: Comment PR with Preview URL
+        uses: thollander/actions-comment-pull-request@v2
+        with:
+          message: |
+            Preview: ${{ steps.deploy.outputs.preview_url }}
