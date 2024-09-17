@@ -37,4 +37,4 @@ jobs:
         uses: thollander/actions-comment-pull-request@v2
         with:
           message: |
-            Preview: ${{ steps.deploy.outputs.preview_url }}
+            🚀 Preview URL: ${{ steps.deploy.outputs.preview_url }}
