@@ -1,19 +1,46 @@
 {
-  "files": [],
-  "references": [
-    {
-      "path": "./tsconfig.app.json"
-    },
-    {
-      "path": "./tsconfig.node.json"
-    }
-  ],
   "compilerOptions": {
-    "baseUrl": ".",
+    "target": "es5", // ES5 버전의 JavaScript로 컴파일
+    "lib": ["esnext", "DOM", "DOM.Iterable"], // 사용할 라이브러리 정의
+    "allowJs": true, // JavaScript 파일 컴파일 허용
+    "module": "ESNext", // 모듈 생성을 위한 설정
+    "skipLibCheck": true, // 선언 파일(*.d.ts)의 타입 체크 스킵
+
+    /* Bundler mode 설정 */
+    "esModuleInterop": true, // CommonJS 모듈을 ES6 모듈 방식으로 import 가능하게 함
+    "moduleResolution": "bundler", // 모듈 해석 방식을 번들러에 최적화
+    "resolveJsonModule": true, // JSON 파일을 모듈로 import 가능하게 함
+    "isolatedModules": true, // 각 파일을 분리된 모듈로 트랜스파일
+    "noEmit": true, // JavaScript 파일 생성 안 함
+    "jsx": "preserve", // JSX 구문을 그대로 유지
+    "forceConsistentCasingInFileNames": true, // 파일명의 대소문자를 일관되게 처리 (대소문자 구분 파일 시스템 문제 방지)
+
+    /* Linting 설정 */
+    "strict": true, // 엄격한 타입 체킹 모드 활성화
+    "noUnusedLocals": true, // 사용되지 않는 지역 변수에 대해 오류 발생
+    "noUnusedParameters": true, // 사용되지 않는 매개변수에 대해 오류 발생
+    "noFallthroughCasesInSwitch": true, // switch 문에서 case 간 필요한 break 문이 없을 때 오류 발생
+
+    /* 경로 별칭 설정 (@ 사용하여 src 폴더 참조) */
     "paths": {
       "@/*": ["./src/*"]
     },
-    "types": ["vite-plugin-svgr/client"]
+
+    "incremental": true, // 증분 컴파일 활성화 (빌드 성능 향상)
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ]
   },
-  "include": ["images.d.ts"]
+  "include": [
+    // 컴파일 대상에 포함할 파일/폴더 지정
+    "./src",
+    "next-env.d.ts",
+    "next.config.mjs",
+    ".next/types/**/*.ts",
+    "**/*.ts",
+    "**/*.tsx"
+  ],
+  "exclude": ["./node_modules"] // 컴파일 대상에서 제외할 폴더 지정
 }

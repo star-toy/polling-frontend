@@ -1,10 +1,13 @@
+'use client';
+
 import { useState, useEffect } from 'react';
+import Image from 'next/image';
 
 const BANNER_IMAGES = [
-  '../../public/images/image(2).png',
-  '../../public/images/image(3).png',
-  '../../public/images/image(4).png',
-  '../../public/images/image(5).png',
+  '/images/image(2).png',
+  '/images/image(3).png',
+  '/images/image(4).png',
+  '/images/image(5).png',
 ];
 
 const Banner = () => {
@@ -26,10 +29,15 @@ const Banner = () => {
             index === currentImageIndex ? 'opacity-100' : 'opacity-0'
           }`}
         >
-          <img
+          <Image
             src={image}
             alt={`${index + 1}번째 배너 이미지`}
-            className="h-full w-full rounded-bl-[24px] object-cover"
+            width={390}
+            height={340}
+            priority={index === 0}
+            placeholder="blur"
+            blurDataURL={image}
+            className="h-[340px] w-full rounded-bl-[24px] object-cover"
           />
           <div className="absolute inset-0 rounded-bl-[24px] bg-banner-gradient" />
         </div>
@@ -37,7 +45,7 @@ const Banner = () => {
       <div className="absolute h-full w-full px-4 pb-6 pt-10">
         <h1 className="text-[34px] font-semibold text-white">PollHub</h1>
         <div className="my-4 border-b bg-gray-500 opacity-50"></div>
-        <p className="mb-4 text-body1 text-white">
+        <p className="text-body1 mb-4 text-white">
           아티스트에 대한 관심과 사랑을
           <br /> 공유하는 투표 플랫폼
         </p>
