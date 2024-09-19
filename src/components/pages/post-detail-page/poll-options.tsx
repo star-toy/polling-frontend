@@ -31,7 +31,7 @@ const PollOptions = () => {
             height={140}
             placeholder="blur"
             blurDataURL={option.image}
-            className="object-cover"
+            className="h-[140px] object-cover"
           />
           <div className="flex min-h-[37px] w-full items-center justify-center rounded-b-lg border border-gray-200 bg-gray-50">
             <span
