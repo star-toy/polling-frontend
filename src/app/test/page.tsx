@@ -3,6 +3,7 @@ const TestPage = () => {
     <div>
       <p>테스트</p>
       <p>테스트 2</p>
+      <p>테스트 3</p>
     </div>
   );
 };
