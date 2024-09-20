@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "es5", // ES5 버전의 JavaScript로 컴파일
+    "target": "esnext", // esnext 버전의 JavaScript로 컴파일
     "lib": ["esnext", "DOM", "DOM.Iterable"], // 사용할 라이브러리 정의
     "allowJs": true, // JavaScript 파일 컴파일 허용
     "module": "ESNext", // 모듈 생성을 위한 설정
