@@ -10,12 +10,12 @@ export default defineConfig({
     },
     output: {
       mode: 'tags-split',
-      target: './src/generated/endpoints',
-      schemas: './src/generated/model',
+      target: './src/api/generated/endpoints',
+      schemas: './src/api/generated/model',
       client: 'react-query',
       override: {
         mutator: {
-          path: './src/generated/mutator/custom-instance.ts',
+          path: './src/api/generated/mutator/custom-instance.ts',
           name: 'customInstance',
         },
       },
