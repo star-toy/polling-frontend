@@ -6,9 +6,7 @@ export const AXIOS_INSTANCE = Axios.create({
   timeout: 10000,
 });
 
-export const customInstance = async (options: AxiosRequestConfig) => {
-  const client = AXIOS_INSTANCE({ ...options });
-
-  await client;
-  return client;
+export const customInstance = async <T>(options: AxiosRequestConfig): Promise<T> => {
+  const client = await AXIOS_INSTANCE(options);
+  return client.data;
 };
