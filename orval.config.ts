@@ -6,7 +6,7 @@ dotenv.config();
 export default defineConfig({
   'polling-frontend': {
     input: {
-      target: `${process.env.NEXT_PUBLIC_API_KEY}`,
+      target: `${process.env.NEXT_PUBLIC_API_DOCS_KEY}`,
     },
     output: {
       mode: 'tags-split',
