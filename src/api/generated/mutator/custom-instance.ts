@@ -1,8 +1,8 @@
 import Axios, { AxiosRequestConfig } from 'axios';
-import { API_KEY } from '@/constants/api-key';
+import { BASE_API_KEY } from '@/constants/api-key';
 
 export const AXIOS_INSTANCE = Axios.create({
-  baseURL: API_KEY,
+  baseURL: BASE_API_KEY,
   timeout: 10000,
 });
 
