@@ -10,15 +10,15 @@ import type { Post } from './post';
 
 export interface Poll {
   createdAt?: string;
-  createdBy?: string;
+  createdBy: string;
   expiresAt?: string;
-  id?: number;
-  isDeleted?: boolean;
+  id: number;
+  isDeleted: boolean;
   options?: PollOption[];
-  pollCategory?: string;
-  pollDescription?: string;
-  pollSeq?: number;
-  pollUid?: string;
+  pollCategory: string;
+  pollDescription: string;
+  pollSeq: number;
+  pollUid: string;
   post?: Post;
   updatedAt?: string;
   updatedBy?: string;

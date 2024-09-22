@@ -5,72 +5,73 @@
  * polling API Document
  * OpenAPI spec version: 1.0.0
  */
-import { useMutation } from '@tanstack/react-query';
+import {
+  useMutation
+} from '@tanstack/react-query'
 import type {
   MutationFunction,
   UseMutationOptions,
-  UseMutationResult,
-} from '@tanstack/react-query';
-import type { UploadFile200, UploadFileBody } from '../../model';
+  UseMutationResult
+} from '@tanstack/react-query'
+import type {
+  UploadFile200,
+  UploadFileBody
+} from '../../model'
 import { customInstance } from '../../mutator/custom-instance';
 
-export const uploadFile = (uploadFileBody: UploadFileBody) => {
-  const formData = new FormData();
-  formData.append('file', uploadFileBody.file);
 
-  return customInstance<UploadFile200>({
-    url: `/v1/files/upload`,
-    method: 'POST',
-    headers: { 'Content-Type': 'multipart/form-data' },
-    data: formData,
-  });
-};
 
-export const getUploadFileMutationOptions = <TError = unknown, TContext = unknown>(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof uploadFile>>,
-    TError,
-    { data: UploadFileBody },
-    TContext
-  >;
-}): UseMutationOptions<
-  Awaited<ReturnType<typeof uploadFile>>,
-  TError,
-  { data: UploadFileBody },
-  TContext
-> => {
-  const { mutation: mutationOptions } = options ?? {};
+export const uploadFile = (
+    uploadFileBody: UploadFileBody,
+ ) => {
+      
+      const formData = new FormData();
+formData.append('file', uploadFileBody.file)
 
-  const mutationFn: MutationFunction<
-    Awaited<ReturnType<typeof uploadFile>>,
-    { data: UploadFileBody }
-  > = (props) => {
-    const { data } = props ?? {};
+      return customInstance<UploadFile200>(
+      {url: `/v1/files/upload`, method: 'POST',
+      headers: {'Content-Type': 'multipart/form-data', },
+       data: formData
+    },
+      );
+    }
+  
 
-    return uploadFile(data);
-  };
 
-  return { mutationFn, ...mutationOptions };
-};
+export const getUploadFileMutationOptions = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof uploadFile>>, TError,{data: UploadFileBody}, TContext>, }
+): UseMutationOptions<Awaited<ReturnType<typeof uploadFile>>, TError,{data: UploadFileBody}, TContext> => {
+const {mutation: mutationOptions} = options ?? {};
 
-export type UploadFileMutationResult = NonNullable<Awaited<ReturnType<typeof uploadFile>>>;
-export type UploadFileMutationBody = UploadFileBody;
-export type UploadFileMutationError = unknown;
+      
 
-export const useUploadFile = <TError = unknown, TContext = unknown>(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof uploadFile>>,
-    TError,
-    { data: UploadFileBody },
-    TContext
-  >;
-}): UseMutationResult<
-  Awaited<ReturnType<typeof uploadFile>>,
-  TError,
-  { data: UploadFileBody },
-  TContext
-> => {
-  const mutationOptions = getUploadFileMutationOptions(options);
 
-  return useMutation(mutationOptions);
-};
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof uploadFile>>, {data: UploadFileBody}> = (props) => {
+          const {data} = props ?? {};
+
+          return  uploadFile(data,)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type UploadFileMutationResult = NonNullable<Awaited<ReturnType<typeof uploadFile>>>
+    export type UploadFileMutationBody = UploadFileBody
+    export type UploadFileMutationError = unknown
+
+    export const useUploadFile = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof uploadFile>>, TError,{data: UploadFileBody}, TContext>, }
+): UseMutationResult<
+        Awaited<ReturnType<typeof uploadFile>>,
+        TError,
+        {data: UploadFileBody},
+        TContext
+      > => {
+
+      const mutationOptions = getUploadFileMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    

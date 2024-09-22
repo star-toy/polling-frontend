@@ -5,7 +5,10 @@
  * polling API Document
  * OpenAPI spec version: 1.0.0
  */
-import { useMutation, useQuery } from '@tanstack/react-query';
+import {
+  useMutation,
+  useQuery
+} from '@tanstack/react-query'
 import type {
   DefinedInitialDataOptions,
   DefinedUseQueryResult,
@@ -16,367 +19,356 @@ import type {
   UseMutationOptions,
   UseMutationResult,
   UseQueryOptions,
-  UseQueryResult,
-} from '@tanstack/react-query';
-import type { PollOption } from '../../model';
+  UseQueryResult
+} from '@tanstack/react-query'
+import type {
+  PollOption
+} from '../../model'
 import { customInstance } from '../../mutator/custom-instance';
 
+
+
 /**
  * @summary 특정 투표 옵션 조회
  */
-export const findOptionById = (optionId: number, signal?: AbortSignal) => {
-  return customInstance<PollOption>({ url: `/v1/options/${optionId}`, method: 'GET', signal });
-};
-
-export const getFindOptionByIdQueryKey = (optionId: number) => {
-  return [`/v1/options/${optionId}`] as const;
-};
-
-export const getFindOptionByIdQueryOptions = <
-  TData = Awaited<ReturnType<typeof findOptionById>>,
-  TError = unknown,
->(
-  optionId: number,
-  options?: {
-    query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof findOptionById>>, TError, TData>>;
-  },
+export const findOptionById = (
+    optionId: number,
+ signal?: AbortSignal
 ) => {
-  const { query: queryOptions } = options ?? {};
+      
+      
+      return customInstance<PollOption>(
+      {url: `/v1/options/${optionId}`, method: 'GET', signal
+    },
+      );
+    }
+  
 
-  const queryKey = queryOptions?.queryKey ?? getFindOptionByIdQueryKey(optionId);
+export const getFindOptionByIdQueryKey = (optionId: number,) => {
+    return [`/v1/options/${optionId}`] as const;
+    }
 
-  const queryFn: QueryFunction<Awaited<ReturnType<typeof findOptionById>>> = ({ signal }) =>
-    findOptionById(optionId, signal);
+    
+export const getFindOptionByIdQueryOptions = <TData = Awaited<ReturnType<typeof findOptionById>>, TError = unknown>(optionId: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof findOptionById>>, TError, TData>>, }
+) => {
 
-  return { queryKey, queryFn, enabled: !!optionId, ...queryOptions } as UseQueryOptions<
-    Awaited<ReturnType<typeof findOptionById>>,
-    TError,
-    TData
-  > & { queryKey: QueryKey };
-};
+const {query: queryOptions} = options ?? {};
 
-export type FindOptionByIdQueryResult = NonNullable<Awaited<ReturnType<typeof findOptionById>>>;
-export type FindOptionByIdQueryError = unknown;
+  const queryKey =  queryOptions?.queryKey ?? getFindOptionByIdQueryKey(optionId);
 
-export function useFindOptionById<
-  TData = Awaited<ReturnType<typeof findOptionById>>,
-  TError = unknown,
->(
-  optionId: number,
-  options: {
-    query: Partial<UseQueryOptions<Awaited<ReturnType<typeof findOptionById>>, TError, TData>> &
-      Pick<
-        DefinedInitialDataOptions<Awaited<ReturnType<typeof findOptionById>>, TError, TData>,
-        'initialData'
-      >;
-  },
-): DefinedUseQueryResult<TData, TError> & { queryKey: QueryKey };
-export function useFindOptionById<
-  TData = Awaited<ReturnType<typeof findOptionById>>,
-  TError = unknown,
->(
-  optionId: number,
-  options?: {
-    query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof findOptionById>>, TError, TData>> &
-      Pick<
-        UndefinedInitialDataOptions<Awaited<ReturnType<typeof findOptionById>>, TError, TData>,
-        'initialData'
-      >;
-  },
-): UseQueryResult<TData, TError> & { queryKey: QueryKey };
-export function useFindOptionById<
-  TData = Awaited<ReturnType<typeof findOptionById>>,
-  TError = unknown,
->(
-  optionId: number,
-  options?: {
-    query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof findOptionById>>, TError, TData>>;
-  },
-): UseQueryResult<TData, TError> & { queryKey: QueryKey };
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof findOptionById>>> = ({ signal }) => findOptionById(optionId, signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn, enabled: !!(optionId), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof findOptionById>>, TError, TData> & { queryKey: QueryKey }
+}
+
+export type FindOptionByIdQueryResult = NonNullable<Awaited<ReturnType<typeof findOptionById>>>
+export type FindOptionByIdQueryError = unknown
+
+
+export function useFindOptionById<TData = Awaited<ReturnType<typeof findOptionById>>, TError = unknown>(
+ optionId: number, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof findOptionById>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof findOptionById>>,
+          TError,
+          TData
+        > , 'initialData'
+      >, }
+
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: QueryKey }
+export function useFindOptionById<TData = Awaited<ReturnType<typeof findOptionById>>, TError = unknown>(
+ optionId: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof findOptionById>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof findOptionById>>,
+          TError,
+          TData
+        > , 'initialData'
+      >, }
+
+  ):  UseQueryResult<TData, TError> & { queryKey: QueryKey }
+export function useFindOptionById<TData = Awaited<ReturnType<typeof findOptionById>>, TError = unknown>(
+ optionId: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof findOptionById>>, TError, TData>>, }
+
+  ):  UseQueryResult<TData, TError> & { queryKey: QueryKey }
 /**
  * @summary 특정 투표 옵션 조회
  */
 
-export function useFindOptionById<
-  TData = Awaited<ReturnType<typeof findOptionById>>,
-  TError = unknown,
->(
-  optionId: number,
-  options?: {
-    query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof findOptionById>>, TError, TData>>;
-  },
-): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
-  const queryOptions = getFindOptionByIdQueryOptions(optionId, options);
+export function useFindOptionById<TData = Awaited<ReturnType<typeof findOptionById>>, TError = unknown>(
+ optionId: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof findOptionById>>, TError, TData>>, }
 
-  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & { queryKey: QueryKey };
+  ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
 
-  query.queryKey = queryOptions.queryKey;
+  const queryOptions = getFindOptionByIdQueryOptions(optionId,options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  query.queryKey = queryOptions.queryKey ;
 
   return query;
 }
 
-/**
- * @summary 특정 투표 옵션 수정
- */
-export const updateOption = (optionId: number, pollOption: PollOption) => {
-  return customInstance<PollOption>({
-    url: `/v1/options/${optionId}`,
-    method: 'PUT',
-    headers: { 'Content-Type': 'application/json' },
-    data: pollOption,
-  });
-};
 
-export const getUpdateOptionMutationOptions = <TError = unknown, TContext = unknown>(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof updateOption>>,
-    TError,
-    { optionId: number; data: PollOption },
-    TContext
-  >;
-}): UseMutationOptions<
-  Awaited<ReturnType<typeof updateOption>>,
-  TError,
-  { optionId: number; data: PollOption },
-  TContext
-> => {
-  const { mutation: mutationOptions } = options ?? {};
-
-  const mutationFn: MutationFunction<
-    Awaited<ReturnType<typeof updateOption>>,
-    { optionId: number; data: PollOption }
-  > = (props) => {
-    const { optionId, data } = props ?? {};
-
-    return updateOption(optionId, data);
-  };
-
-  return { mutationFn, ...mutationOptions };
-};
-
-export type UpdateOptionMutationResult = NonNullable<Awaited<ReturnType<typeof updateOption>>>;
-export type UpdateOptionMutationBody = PollOption;
-export type UpdateOptionMutationError = unknown;
 
 /**
  * @summary 특정 투표 옵션 수정
  */
-export const useUpdateOption = <TError = unknown, TContext = unknown>(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof updateOption>>,
-    TError,
-    { optionId: number; data: PollOption },
-    TContext
-  >;
-}): UseMutationResult<
-  Awaited<ReturnType<typeof updateOption>>,
-  TError,
-  { optionId: number; data: PollOption },
-  TContext
-> => {
-  const mutationOptions = getUpdateOptionMutationOptions(options);
+export const updateOption = (
+    optionId: number,
+    pollOption: PollOption,
+ ) => {
+      
+      
+      return customInstance<PollOption>(
+      {url: `/v1/options/${optionId}`, method: 'PUT',
+      headers: {'Content-Type': 'application/json', },
+      data: pollOption
+    },
+      );
+    }
+  
 
-  return useMutation(mutationOptions);
-};
-/**
+
+export const getUpdateOptionMutationOptions = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateOption>>, TError,{optionId: number;data: PollOption}, TContext>, }
+): UseMutationOptions<Awaited<ReturnType<typeof updateOption>>, TError,{optionId: number;data: PollOption}, TContext> => {
+const {mutation: mutationOptions} = options ?? {};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof updateOption>>, {optionId: number;data: PollOption}> = (props) => {
+          const {optionId,data} = props ?? {};
+
+          return  updateOption(optionId,data,)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type UpdateOptionMutationResult = NonNullable<Awaited<ReturnType<typeof updateOption>>>
+    export type UpdateOptionMutationBody = PollOption
+    export type UpdateOptionMutationError = unknown
+
+    /**
+ * @summary 특정 투표 옵션 수정
+ */
+export const useUpdateOption = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateOption>>, TError,{optionId: number;data: PollOption}, TContext>, }
+): UseMutationResult<
+        Awaited<ReturnType<typeof updateOption>>,
+        TError,
+        {optionId: number;data: PollOption},
+        TContext
+      > => {
+
+      const mutationOptions = getUpdateOptionMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    /**
  * @summary 특정 투표 옵션 삭제
  */
-export const deleteOption = (optionId: number) => {
-  return customInstance<string>({ url: `/v1/options/${optionId}`, method: 'DELETE' });
-};
+export const deleteOption = (
+    optionId: number,
+ ) => {
+      
+      
+      return customInstance<string>(
+      {url: `/v1/options/${optionId}`, method: 'DELETE'
+    },
+      );
+    }
+  
 
-export const getDeleteOptionMutationOptions = <TError = unknown, TContext = unknown>(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof deleteOption>>,
-    TError,
-    { optionId: number },
-    TContext
-  >;
-}): UseMutationOptions<
-  Awaited<ReturnType<typeof deleteOption>>,
-  TError,
-  { optionId: number },
-  TContext
-> => {
-  const { mutation: mutationOptions } = options ?? {};
 
-  const mutationFn: MutationFunction<
-    Awaited<ReturnType<typeof deleteOption>>,
-    { optionId: number }
-  > = (props) => {
-    const { optionId } = props ?? {};
+export const getDeleteOptionMutationOptions = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteOption>>, TError,{optionId: number}, TContext>, }
+): UseMutationOptions<Awaited<ReturnType<typeof deleteOption>>, TError,{optionId: number}, TContext> => {
+const {mutation: mutationOptions} = options ?? {};
 
-    return deleteOption(optionId);
-  };
+      
 
-  return { mutationFn, ...mutationOptions };
-};
 
-export type DeleteOptionMutationResult = NonNullable<Awaited<ReturnType<typeof deleteOption>>>;
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof deleteOption>>, {optionId: number}> = (props) => {
+          const {optionId} = props ?? {};
 
-export type DeleteOptionMutationError = unknown;
+          return  deleteOption(optionId,)
+        }
 
-/**
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type DeleteOptionMutationResult = NonNullable<Awaited<ReturnType<typeof deleteOption>>>
+    
+    export type DeleteOptionMutationError = unknown
+
+    /**
  * @summary 특정 투표 옵션 삭제
  */
-export const useDeleteOption = <TError = unknown, TContext = unknown>(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof deleteOption>>,
-    TError,
-    { optionId: number },
-    TContext
-  >;
-}): UseMutationResult<
-  Awaited<ReturnType<typeof deleteOption>>,
-  TError,
-  { optionId: number },
-  TContext
-> => {
-  const mutationOptions = getDeleteOptionMutationOptions(options);
+export const useDeleteOption = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteOption>>, TError,{optionId: number}, TContext>, }
+): UseMutationResult<
+        Awaited<ReturnType<typeof deleteOption>>,
+        TError,
+        {optionId: number},
+        TContext
+      > => {
 
-  return useMutation(mutationOptions);
-};
-/**
+      const mutationOptions = getDeleteOptionMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    /**
  * @summary 새로운 투표 옵션 생성
  */
-export const createOption = (pollOption: PollOption) => {
-  return customInstance<PollOption>({
-    url: `/v1/options`,
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    data: pollOption,
-  });
-};
+export const createOption = (
+    pollOption: PollOption,
+ ) => {
+      
+      
+      return customInstance<PollOption>(
+      {url: `/v1/options`, method: 'POST',
+      headers: {'Content-Type': 'application/json', },
+      data: pollOption
+    },
+      );
+    }
+  
 
-export const getCreateOptionMutationOptions = <TError = unknown, TContext = unknown>(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof createOption>>,
-    TError,
-    { data: PollOption },
-    TContext
-  >;
-}): UseMutationOptions<
-  Awaited<ReturnType<typeof createOption>>,
-  TError,
-  { data: PollOption },
-  TContext
-> => {
-  const { mutation: mutationOptions } = options ?? {};
 
-  const mutationFn: MutationFunction<
-    Awaited<ReturnType<typeof createOption>>,
-    { data: PollOption }
-  > = (props) => {
-    const { data } = props ?? {};
+export const getCreateOptionMutationOptions = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createOption>>, TError,{data: PollOption}, TContext>, }
+): UseMutationOptions<Awaited<ReturnType<typeof createOption>>, TError,{data: PollOption}, TContext> => {
+const {mutation: mutationOptions} = options ?? {};
 
-    return createOption(data);
-  };
+      
 
-  return { mutationFn, ...mutationOptions };
-};
 
-export type CreateOptionMutationResult = NonNullable<Awaited<ReturnType<typeof createOption>>>;
-export type CreateOptionMutationBody = PollOption;
-export type CreateOptionMutationError = unknown;
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof createOption>>, {data: PollOption}> = (props) => {
+          const {data} = props ?? {};
 
-/**
+          return  createOption(data,)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type CreateOptionMutationResult = NonNullable<Awaited<ReturnType<typeof createOption>>>
+    export type CreateOptionMutationBody = PollOption
+    export type CreateOptionMutationError = unknown
+
+    /**
  * @summary 새로운 투표 옵션 생성
  */
-export const useCreateOption = <TError = unknown, TContext = unknown>(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof createOption>>,
-    TError,
-    { data: PollOption },
-    TContext
-  >;
-}): UseMutationResult<
-  Awaited<ReturnType<typeof createOption>>,
-  TError,
-  { data: PollOption },
-  TContext
-> => {
-  const mutationOptions = getCreateOptionMutationOptions(options);
+export const useCreateOption = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createOption>>, TError,{data: PollOption}, TContext>, }
+): UseMutationResult<
+        Awaited<ReturnType<typeof createOption>>,
+        TError,
+        {data: PollOption},
+        TContext
+      > => {
 
-  return useMutation(mutationOptions);
-};
-/**
+      const mutationOptions = getCreateOptionMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    /**
  * @summary 특정 poll_id에 해당하는 투표 옵션 전체 조회
  */
-export const findByPollId = (pollId: number, signal?: AbortSignal) => {
-  return customInstance<PollOption[]>({ url: `/v1/options/poll/${pollId}`, method: 'GET', signal });
-};
-
-export const getFindByPollIdQueryKey = (pollId: number) => {
-  return [`/v1/options/poll/${pollId}`] as const;
-};
-
-export const getFindByPollIdQueryOptions = <
-  TData = Awaited<ReturnType<typeof findByPollId>>,
-  TError = unknown,
->(
-  pollId: number,
-  options?: {
-    query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof findByPollId>>, TError, TData>>;
-  },
+export const findByPollId = (
+    pollId: number,
+ signal?: AbortSignal
 ) => {
-  const { query: queryOptions } = options ?? {};
+      
+      
+      return customInstance<PollOption[]>(
+      {url: `/v1/options/poll/${pollId}`, method: 'GET', signal
+    },
+      );
+    }
+  
 
-  const queryKey = queryOptions?.queryKey ?? getFindByPollIdQueryKey(pollId);
+export const getFindByPollIdQueryKey = (pollId: number,) => {
+    return [`/v1/options/poll/${pollId}`] as const;
+    }
 
-  const queryFn: QueryFunction<Awaited<ReturnType<typeof findByPollId>>> = ({ signal }) =>
-    findByPollId(pollId, signal);
+    
+export const getFindByPollIdQueryOptions = <TData = Awaited<ReturnType<typeof findByPollId>>, TError = unknown>(pollId: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof findByPollId>>, TError, TData>>, }
+) => {
 
-  return { queryKey, queryFn, enabled: !!pollId, ...queryOptions } as UseQueryOptions<
-    Awaited<ReturnType<typeof findByPollId>>,
-    TError,
-    TData
-  > & { queryKey: QueryKey };
-};
+const {query: queryOptions} = options ?? {};
 
-export type FindByPollIdQueryResult = NonNullable<Awaited<ReturnType<typeof findByPollId>>>;
-export type FindByPollIdQueryError = unknown;
+  const queryKey =  queryOptions?.queryKey ?? getFindByPollIdQueryKey(pollId);
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof findByPollId>>> = ({ signal }) => findByPollId(pollId, signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn, enabled: !!(pollId), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof findByPollId>>, TError, TData> & { queryKey: QueryKey }
+}
+
+export type FindByPollIdQueryResult = NonNullable<Awaited<ReturnType<typeof findByPollId>>>
+export type FindByPollIdQueryError = unknown
+
 
 export function useFindByPollId<TData = Awaited<ReturnType<typeof findByPollId>>, TError = unknown>(
-  pollId: number,
-  options: {
-    query: Partial<UseQueryOptions<Awaited<ReturnType<typeof findByPollId>>, TError, TData>> &
-      Pick<
-        DefinedInitialDataOptions<Awaited<ReturnType<typeof findByPollId>>, TError, TData>,
-        'initialData'
-      >;
-  },
-): DefinedUseQueryResult<TData, TError> & { queryKey: QueryKey };
+ pollId: number, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof findByPollId>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof findByPollId>>,
+          TError,
+          TData
+        > , 'initialData'
+      >, }
+
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: QueryKey }
 export function useFindByPollId<TData = Awaited<ReturnType<typeof findByPollId>>, TError = unknown>(
-  pollId: number,
-  options?: {
-    query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof findByPollId>>, TError, TData>> &
-      Pick<
-        UndefinedInitialDataOptions<Awaited<ReturnType<typeof findByPollId>>, TError, TData>,
-        'initialData'
-      >;
-  },
-): UseQueryResult<TData, TError> & { queryKey: QueryKey };
+ pollId: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof findByPollId>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof findByPollId>>,
+          TError,
+          TData
+        > , 'initialData'
+      >, }
+
+  ):  UseQueryResult<TData, TError> & { queryKey: QueryKey }
 export function useFindByPollId<TData = Awaited<ReturnType<typeof findByPollId>>, TError = unknown>(
-  pollId: number,
-  options?: {
-    query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof findByPollId>>, TError, TData>>;
-  },
-): UseQueryResult<TData, TError> & { queryKey: QueryKey };
+ pollId: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof findByPollId>>, TError, TData>>, }
+
+  ):  UseQueryResult<TData, TError> & { queryKey: QueryKey }
 /**
  * @summary 특정 poll_id에 해당하는 투표 옵션 전체 조회
  */
 
 export function useFindByPollId<TData = Awaited<ReturnType<typeof findByPollId>>, TError = unknown>(
-  pollId: number,
-  options?: {
-    query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof findByPollId>>, TError, TData>>;
-  },
-): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
-  const queryOptions = getFindByPollIdQueryOptions(pollId, options);
+ pollId: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof findByPollId>>, TError, TData>>, }
 
-  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & { queryKey: QueryKey };
+  ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
 
-  query.queryKey = queryOptions.queryKey;
+  const queryOptions = getFindByPollIdQueryOptions(pollId,options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  query.queryKey = queryOptions.queryKey ;
 
   return query;
 }
+
+
+

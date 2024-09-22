@@ -5,64 +5,69 @@
  * polling API Document
  * OpenAPI spec version: 1.0.0
  */
-import { useMutation } from '@tanstack/react-query';
+import {
+  useMutation
+} from '@tanstack/react-query'
 import type {
   MutationFunction,
   UseMutationOptions,
-  UseMutationResult,
-} from '@tanstack/react-query';
-import type { SubmitVoteParams } from '../../model';
+  UseMutationResult
+} from '@tanstack/react-query'
+import type {
+  SubmitVoteParams
+} from '../../model'
 import { customInstance } from '../../mutator/custom-instance';
 
-export const submitVote = (params: SubmitVoteParams) => {
-  return customInstance<string>({ url: `/v1/vote`, method: 'POST', params });
-};
 
-export const getSubmitVoteMutationOptions = <TError = unknown, TContext = unknown>(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof submitVote>>,
-    TError,
-    { params: SubmitVoteParams },
-    TContext
-  >;
-}): UseMutationOptions<
-  Awaited<ReturnType<typeof submitVote>>,
-  TError,
-  { params: SubmitVoteParams },
-  TContext
-> => {
-  const { mutation: mutationOptions } = options ?? {};
 
-  const mutationFn: MutationFunction<
-    Awaited<ReturnType<typeof submitVote>>,
-    { params: SubmitVoteParams }
-  > = (props) => {
-    const { params } = props ?? {};
+export const submitVote = (
+    params: SubmitVoteParams,
+ ) => {
+      
+      
+      return customInstance<string>(
+      {url: `/v1/vote`, method: 'POST',
+        params
+    },
+      );
+    }
+  
 
-    return submitVote(params);
-  };
 
-  return { mutationFn, ...mutationOptions };
-};
+export const getSubmitVoteMutationOptions = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof submitVote>>, TError,{params: SubmitVoteParams}, TContext>, }
+): UseMutationOptions<Awaited<ReturnType<typeof submitVote>>, TError,{params: SubmitVoteParams}, TContext> => {
+const {mutation: mutationOptions} = options ?? {};
 
-export type SubmitVoteMutationResult = NonNullable<Awaited<ReturnType<typeof submitVote>>>;
+      
 
-export type SubmitVoteMutationError = unknown;
 
-export const useSubmitVote = <TError = unknown, TContext = unknown>(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof submitVote>>,
-    TError,
-    { params: SubmitVoteParams },
-    TContext
-  >;
-}): UseMutationResult<
-  Awaited<ReturnType<typeof submitVote>>,
-  TError,
-  { params: SubmitVoteParams },
-  TContext
-> => {
-  const mutationOptions = getSubmitVoteMutationOptions(options);
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof submitVote>>, {params: SubmitVoteParams}> = (props) => {
+          const {params} = props ?? {};
 
-  return useMutation(mutationOptions);
-};
+          return  submitVote(params,)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type SubmitVoteMutationResult = NonNullable<Awaited<ReturnType<typeof submitVote>>>
+    
+    export type SubmitVoteMutationError = unknown
+
+    export const useSubmitVote = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof submitVote>>, TError,{params: SubmitVoteParams}, TContext>, }
+): UseMutationResult<
+        Awaited<ReturnType<typeof submitVote>>,
+        TError,
+        {params: SubmitVoteParams},
+        TContext
+      > => {
+
+      const mutationOptions = getSubmitVoteMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    
