@@ -5,11 +5,11 @@ import Link from 'next/link';
 import { createRoute } from '@/constants/routes';
 import { Post } from '@/api/generated/model';
 
-interface PollItemListProps {
+interface PostsProps {
   posts: Post[] | undefined;
 }
 
-const PollItemList = ({ posts }: PollItemListProps) => {
+const Posts = ({ posts }: PostsProps) => {
   return (
     <>
       <h2 className="mb-6 ml-4 text-sub-title-3">투표</h2>
@@ -36,4 +36,4 @@ const PollItemList = ({ posts }: PollItemListProps) => {
   );
 };
 
-export default PollItemList;
+export default Posts;
