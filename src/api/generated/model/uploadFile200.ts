@@ -6,4 +6,4 @@
  * OpenAPI spec version: 1.0.0
  */
 
-export type UploadFile200 = {[key: string]: string};
+export type UploadFile200 = { [key: string]: string };
