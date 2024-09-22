@@ -8,7 +8,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "generate-api": "orval",
+    "generate-api": "orval && prettier --write ./src/api",
     "format": "prettier --write ."
   },
   "dependencies": {
