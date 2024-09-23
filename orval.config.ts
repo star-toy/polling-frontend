@@ -1,10 +1,12 @@
 import { defineConfig } from 'orval';
-import { API_DOCS_KEY } from '@/constants/api-key';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 export default defineConfig({
   'polling-frontend': {
     input: {
-      target: `${API_DOCS_KEY}`,
+      target: `${process.env.NEXT_PUBLIC_API_DOCS_KEY}`,
     },
     output: {
       mode: 'tags-split',
