@@ -8,7 +8,7 @@ const makeQueryClient = () => {
   return new QueryClient({
     defaultOptions: {
       queries: {
-        staleTime: 60 * 1000, // 데이터가 60초 동안 신선(stale)하다고 간주됨
+        staleTime: 60 * 1000,
       },
     },
   });
