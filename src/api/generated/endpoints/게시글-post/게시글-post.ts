@@ -18,211 +18,9 @@ import type {
   UseQueryOptions,
   UseQueryResult,
 } from '@tanstack/react-query';
-import type { Post } from '../../model';
+import type { Post, PostDetailResponse, PostListResponse } from '../../model';
 import { customInstance } from '../../mutator/custom-instance';
 
-/**
- * @summary 게시글 상세 조회
- */
-export const getPostById = (postId: number, signal?: AbortSignal) => {
-  return customInstance<Post>({ url: `/v1/posts/${postId}`, method: 'GET', signal });
-};
-
-export const getGetPostByIdQueryKey = (postId: number) => {
-  return [`/v1/posts/${postId}`] as const;
-};
-
-export const getGetPostByIdQueryOptions = <
-  TData = Awaited<ReturnType<typeof getPostById>>,
-  TError = unknown,
->(
-  postId: number,
-  options?: {
-    query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getPostById>>, TError, TData>>;
-  },
-) => {
-  const { query: queryOptions } = options ?? {};
-
-  const queryKey = queryOptions?.queryKey ?? getGetPostByIdQueryKey(postId);
-
-  const queryFn: QueryFunction<Awaited<ReturnType<typeof getPostById>>> = ({ signal }) =>
-    getPostById(postId, signal);
-
-  return { queryKey, queryFn, enabled: !!postId, ...queryOptions } as UseQueryOptions<
-    Awaited<ReturnType<typeof getPostById>>,
-    TError,
-    TData
-  > & { queryKey: QueryKey };
-};
-
-export type GetPostByIdQueryResult = NonNullable<Awaited<ReturnType<typeof getPostById>>>;
-export type GetPostByIdQueryError = unknown;
-
-export function useGetPostById<TData = Awaited<ReturnType<typeof getPostById>>, TError = unknown>(
-  postId: number,
-  options: {
-    query: Partial<UseQueryOptions<Awaited<ReturnType<typeof getPostById>>, TError, TData>> &
-      Pick<
-        DefinedInitialDataOptions<Awaited<ReturnType<typeof getPostById>>, TError, TData>,
-        'initialData'
-      >;
-  },
-): DefinedUseQueryResult<TData, TError> & { queryKey: QueryKey };
-export function useGetPostById<TData = Awaited<ReturnType<typeof getPostById>>, TError = unknown>(
-  postId: number,
-  options?: {
-    query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getPostById>>, TError, TData>> &
-      Pick<
-        UndefinedInitialDataOptions<Awaited<ReturnType<typeof getPostById>>, TError, TData>,
-        'initialData'
-      >;
-  },
-): UseQueryResult<TData, TError> & { queryKey: QueryKey };
-export function useGetPostById<TData = Awaited<ReturnType<typeof getPostById>>, TError = unknown>(
-  postId: number,
-  options?: {
-    query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getPostById>>, TError, TData>>;
-  },
-): UseQueryResult<TData, TError> & { queryKey: QueryKey };
-/**
- * @summary 게시글 상세 조회
- */
-
-export function useGetPostById<TData = Awaited<ReturnType<typeof getPostById>>, TError = unknown>(
-  postId: number,
-  options?: {
-    query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getPostById>>, TError, TData>>;
-  },
-): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
-  const queryOptions = getGetPostByIdQueryOptions(postId, options);
-
-  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & { queryKey: QueryKey };
-
-  query.queryKey = queryOptions.queryKey;
-
-  return query;
-}
-
-/**
- * @summary 특정 게시글 수정
- */
-export const updatePost = (postId: number, post: Post) => {
-  return customInstance<Post>({
-    url: `/v1/posts/${postId}`,
-    method: 'PUT',
-    headers: { 'Content-Type': 'application/json' },
-    data: post,
-  });
-};
-
-export const getUpdatePostMutationOptions = <TError = unknown, TContext = unknown>(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof updatePost>>,
-    TError,
-    { postId: number; data: Post },
-    TContext
-  >;
-}): UseMutationOptions<
-  Awaited<ReturnType<typeof updatePost>>,
-  TError,
-  { postId: number; data: Post },
-  TContext
-> => {
-  const { mutation: mutationOptions } = options ?? {};
-
-  const mutationFn: MutationFunction<
-    Awaited<ReturnType<typeof updatePost>>,
-    { postId: number; data: Post }
-  > = (props) => {
-    const { postId, data } = props ?? {};
-
-    return updatePost(postId, data);
-  };
-
-  return { mutationFn, ...mutationOptions };
-};
-
-export type UpdatePostMutationResult = NonNullable<Awaited<ReturnType<typeof updatePost>>>;
-export type UpdatePostMutationBody = Post;
-export type UpdatePostMutationError = unknown;
-
-/**
- * @summary 특정 게시글 수정
- */
-export const useUpdatePost = <TError = unknown, TContext = unknown>(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof updatePost>>,
-    TError,
-    { postId: number; data: Post },
-    TContext
-  >;
-}): UseMutationResult<
-  Awaited<ReturnType<typeof updatePost>>,
-  TError,
-  { postId: number; data: Post },
-  TContext
-> => {
-  const mutationOptions = getUpdatePostMutationOptions(options);
-
-  return useMutation(mutationOptions);
-};
-/**
- * @summary 게시글 삭제
- */
-export const deletePost = (postId: number) => {
-  return customInstance<string>({ url: `/v1/posts/${postId}`, method: 'DELETE' });
-};
-
-export const getDeletePostMutationOptions = <TError = unknown, TContext = unknown>(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof deletePost>>,
-    TError,
-    { postId: number },
-    TContext
-  >;
-}): UseMutationOptions<
-  Awaited<ReturnType<typeof deletePost>>,
-  TError,
-  { postId: number },
-  TContext
-> => {
-  const { mutation: mutationOptions } = options ?? {};
-
-  const mutationFn: MutationFunction<Awaited<ReturnType<typeof deletePost>>, { postId: number }> = (
-    props,
-  ) => {
-    const { postId } = props ?? {};
-
-    return deletePost(postId);
-  };
-
-  return { mutationFn, ...mutationOptions };
-};
-
-export type DeletePostMutationResult = NonNullable<Awaited<ReturnType<typeof deletePost>>>;
-
-export type DeletePostMutationError = unknown;
-
-/**
- * @summary 게시글 삭제
- */
-export const useDeletePost = <TError = unknown, TContext = unknown>(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof deletePost>>,
-    TError,
-    { postId: number },
-    TContext
-  >;
-}): UseMutationResult<
-  Awaited<ReturnType<typeof deletePost>>,
-  TError,
-  { postId: number },
-  TContext
-> => {
-  const mutationOptions = getDeletePostMutationOptions(options);
-
-  return useMutation(mutationOptions);
-};
 /**
  * @summary 모든 게시글 조회
  */
@@ -359,3 +157,249 @@ export const useCreatePost = <TError = unknown, TContext = unknown>(options?: {
 
   return useMutation(mutationOptions);
 };
+/**
+ * @summary 게시글 상세 조회
+ */
+export const getPostById = (postId: number, signal?: AbortSignal) => {
+  return customInstance<Post>({ url: `/v1/posts/${postId}`, method: 'GET', signal });
+};
+
+export const getGetPostByIdQueryKey = (postId: number) => {
+  return [`/v1/posts/${postId}`] as const;
+};
+
+export const getGetPostByIdQueryOptions = <
+  TData = Awaited<ReturnType<typeof getPostById>>,
+  TError = unknown,
+>(
+  postId: number,
+  options?: {
+    query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getPostById>>, TError, TData>>;
+  },
+) => {
+  const { query: queryOptions } = options ?? {};
+
+  const queryKey = queryOptions?.queryKey ?? getGetPostByIdQueryKey(postId);
+
+  const queryFn: QueryFunction<Awaited<ReturnType<typeof getPostById>>> = ({ signal }) =>
+    getPostById(postId, signal);
+
+  return { queryKey, queryFn, enabled: !!postId, ...queryOptions } as UseQueryOptions<
+    Awaited<ReturnType<typeof getPostById>>,
+    TError,
+    TData
+  > & { queryKey: QueryKey };
+};
+
+export type GetPostByIdQueryResult = NonNullable<Awaited<ReturnType<typeof getPostById>>>;
+export type GetPostByIdQueryError = unknown;
+
+export function useGetPostById<TData = Awaited<ReturnType<typeof getPostById>>, TError = unknown>(
+  postId: number,
+  options: {
+    query: Partial<UseQueryOptions<Awaited<ReturnType<typeof getPostById>>, TError, TData>> &
+      Pick<
+        DefinedInitialDataOptions<Awaited<ReturnType<typeof getPostById>>, TError, TData>,
+        'initialData'
+      >;
+  },
+): DefinedUseQueryResult<TData, TError> & { queryKey: QueryKey };
+export function useGetPostById<TData = Awaited<ReturnType<typeof getPostById>>, TError = unknown>(
+  postId: number,
+  options?: {
+    query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getPostById>>, TError, TData>> &
+      Pick<
+        UndefinedInitialDataOptions<Awaited<ReturnType<typeof getPostById>>, TError, TData>,
+        'initialData'
+      >;
+  },
+): UseQueryResult<TData, TError> & { queryKey: QueryKey };
+export function useGetPostById<TData = Awaited<ReturnType<typeof getPostById>>, TError = unknown>(
+  postId: number,
+  options?: {
+    query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getPostById>>, TError, TData>>;
+  },
+): UseQueryResult<TData, TError> & { queryKey: QueryKey };
+/**
+ * @summary 게시글 상세 조회
+ */
+
+export function useGetPostById<TData = Awaited<ReturnType<typeof getPostById>>, TError = unknown>(
+  postId: number,
+  options?: {
+    query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getPostById>>, TError, TData>>;
+  },
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+  const queryOptions = getGetPostByIdQueryOptions(postId, options);
+
+  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  query.queryKey = queryOptions.queryKey;
+
+  return query;
+}
+
+/**
+ * @summary 게시글 상세 조회
+ */
+export const getPostByUid = (postUid: string, signal?: AbortSignal) => {
+  return customInstance<PostDetailResponse>({
+    url: `/v1/posts/uid/${postUid}`,
+    method: 'GET',
+    signal,
+  });
+};
+
+export const getGetPostByUidQueryKey = (postUid: string) => {
+  return [`/v1/posts/uid/${postUid}`] as const;
+};
+
+export const getGetPostByUidQueryOptions = <
+  TData = Awaited<ReturnType<typeof getPostByUid>>,
+  TError = unknown,
+>(
+  postUid: string,
+  options?: {
+    query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getPostByUid>>, TError, TData>>;
+  },
+) => {
+  const { query: queryOptions } = options ?? {};
+
+  const queryKey = queryOptions?.queryKey ?? getGetPostByUidQueryKey(postUid);
+
+  const queryFn: QueryFunction<Awaited<ReturnType<typeof getPostByUid>>> = ({ signal }) =>
+    getPostByUid(postUid, signal);
+
+  return { queryKey, queryFn, enabled: !!postUid, ...queryOptions } as UseQueryOptions<
+    Awaited<ReturnType<typeof getPostByUid>>,
+    TError,
+    TData
+  > & { queryKey: QueryKey };
+};
+
+export type GetPostByUidQueryResult = NonNullable<Awaited<ReturnType<typeof getPostByUid>>>;
+export type GetPostByUidQueryError = unknown;
+
+export function useGetPostByUid<TData = Awaited<ReturnType<typeof getPostByUid>>, TError = unknown>(
+  postUid: string,
+  options: {
+    query: Partial<UseQueryOptions<Awaited<ReturnType<typeof getPostByUid>>, TError, TData>> &
+      Pick<
+        DefinedInitialDataOptions<Awaited<ReturnType<typeof getPostByUid>>, TError, TData>,
+        'initialData'
+      >;
+  },
+): DefinedUseQueryResult<TData, TError> & { queryKey: QueryKey };
+export function useGetPostByUid<TData = Awaited<ReturnType<typeof getPostByUid>>, TError = unknown>(
+  postUid: string,
+  options?: {
+    query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getPostByUid>>, TError, TData>> &
+      Pick<
+        UndefinedInitialDataOptions<Awaited<ReturnType<typeof getPostByUid>>, TError, TData>,
+        'initialData'
+      >;
+  },
+): UseQueryResult<TData, TError> & { queryKey: QueryKey };
+export function useGetPostByUid<TData = Awaited<ReturnType<typeof getPostByUid>>, TError = unknown>(
+  postUid: string,
+  options?: {
+    query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getPostByUid>>, TError, TData>>;
+  },
+): UseQueryResult<TData, TError> & { queryKey: QueryKey };
+/**
+ * @summary 게시글 상세 조회
+ */
+
+export function useGetPostByUid<TData = Awaited<ReturnType<typeof getPostByUid>>, TError = unknown>(
+  postUid: string,
+  options?: {
+    query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getPostByUid>>, TError, TData>>;
+  },
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+  const queryOptions = getGetPostByUidQueryOptions(postUid, options);
+
+  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  query.queryKey = queryOptions.queryKey;
+
+  return query;
+}
+
+/**
+ * @summary 모든 게시글 조회
+ */
+export const findAllPostsList = (signal?: AbortSignal) => {
+  return customInstance<PostListResponse>({ url: `/v1/posts/list`, method: 'GET', signal });
+};
+
+export const getFindAllPostsListQueryKey = () => {
+  return [`/v1/posts/list`] as const;
+};
+
+export const getFindAllPostsListQueryOptions = <
+  TData = Awaited<ReturnType<typeof findAllPostsList>>,
+  TError = unknown,
+>(options?: {
+  query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof findAllPostsList>>, TError, TData>>;
+}) => {
+  const { query: queryOptions } = options ?? {};
+
+  const queryKey = queryOptions?.queryKey ?? getFindAllPostsListQueryKey();
+
+  const queryFn: QueryFunction<Awaited<ReturnType<typeof findAllPostsList>>> = ({ signal }) =>
+    findAllPostsList(signal);
+
+  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+    Awaited<ReturnType<typeof findAllPostsList>>,
+    TError,
+    TData
+  > & { queryKey: QueryKey };
+};
+
+export type FindAllPostsListQueryResult = NonNullable<Awaited<ReturnType<typeof findAllPostsList>>>;
+export type FindAllPostsListQueryError = unknown;
+
+export function useFindAllPostsList<
+  TData = Awaited<ReturnType<typeof findAllPostsList>>,
+  TError = unknown,
+>(options: {
+  query: Partial<UseQueryOptions<Awaited<ReturnType<typeof findAllPostsList>>, TError, TData>> &
+    Pick<
+      DefinedInitialDataOptions<Awaited<ReturnType<typeof findAllPostsList>>, TError, TData>,
+      'initialData'
+    >;
+}): DefinedUseQueryResult<TData, TError> & { queryKey: QueryKey };
+export function useFindAllPostsList<
+  TData = Awaited<ReturnType<typeof findAllPostsList>>,
+  TError = unknown,
+>(options?: {
+  query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof findAllPostsList>>, TError, TData>> &
+    Pick<
+      UndefinedInitialDataOptions<Awaited<ReturnType<typeof findAllPostsList>>, TError, TData>,
+      'initialData'
+    >;
+}): UseQueryResult<TData, TError> & { queryKey: QueryKey };
+export function useFindAllPostsList<
+  TData = Awaited<ReturnType<typeof findAllPostsList>>,
+  TError = unknown,
+>(options?: {
+  query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof findAllPostsList>>, TError, TData>>;
+}): UseQueryResult<TData, TError> & { queryKey: QueryKey };
+/**
+ * @summary 모든 게시글 조회
+ */
+
+export function useFindAllPostsList<
+  TData = Awaited<ReturnType<typeof findAllPostsList>>,
+  TError = unknown,
+>(options?: {
+  query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof findAllPostsList>>, TError, TData>>;
+}): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+  const queryOptions = getFindAllPostsListQueryOptions(options);
+
+  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  query.queryKey = queryOptions.queryKey;
+
+  return query;
+}

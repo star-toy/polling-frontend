@@ -9,14 +9,14 @@ import type { Poll } from './poll';
 
 export interface PollOption {
   createdAt?: string;
-  createdBy?: string;
+  createdBy: string;
   fileId?: string;
-  id?: number;
-  isDeleted?: boolean;
+  id: number;
+  isDeleted: boolean;
   poll?: Poll;
-  pollOptionSeq?: number;
+  pollOptionSeq: number;
   pollOptionText?: string;
-  pollOptionUid?: string;
+  pollOptionUid: string;
   updatedAt?: string;
   updatedBy?: string;
 }

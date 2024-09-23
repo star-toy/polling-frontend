@@ -6,4 +6,9 @@
  * OpenAPI spec version: 1.0.0
  */
 
-export type UploadFile200 = { [key: string]: string };
+export interface PostDTO {
+  createdAt?: string;
+  createdBy?: string;
+  postUid?: string;
+  title?: string;
+}

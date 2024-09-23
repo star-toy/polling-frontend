@@ -5,5 +5,8 @@
  * polling API Document
  * OpenAPI spec version: 1.0.0
  */
+import type { PostDTO } from './postDTO';
 
-export type UploadFile200 = { [key: string]: string };
+export interface PostListResponse {
+  posts?: PostDTO[];
+}

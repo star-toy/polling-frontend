@@ -5,13 +5,20 @@
  * polling API Document
  * OpenAPI spec version: 1.0.0
  */
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import type {
+  DefinedInitialDataOptions,
+  DefinedUseQueryResult,
   MutationFunction,
+  QueryFunction,
+  QueryKey,
+  UndefinedInitialDataOptions,
   UseMutationOptions,
   UseMutationResult,
+  UseQueryOptions,
+  UseQueryResult,
 } from '@tanstack/react-query';
-import type { SubmitVoteParams } from '../../model';
+import type { GetVoteRateParams, OptionVoteRateDTO, SubmitVoteParams } from '../../model';
 import { customInstance } from '../../mutator/custom-instance';
 
 export const submitVote = (params: SubmitVoteParams) => {
@@ -66,3 +73,89 @@ export const useSubmitVote = <TError = unknown, TContext = unknown>(options?: {
 
   return useMutation(mutationOptions);
 };
+/**
+ * @summary 특정 투표의 옵션들 투표율 조회
+ */
+export const getVoteRate = (params: GetVoteRateParams, signal?: AbortSignal) => {
+  return customInstance<OptionVoteRateDTO[]>({
+    url: `/v1/vote/rate`,
+    method: 'GET',
+    params,
+    signal,
+  });
+};
+
+export const getGetVoteRateQueryKey = (params: GetVoteRateParams) => {
+  return [`/v1/vote/rate`, ...(params ? [params] : [])] as const;
+};
+
+export const getGetVoteRateQueryOptions = <
+  TData = Awaited<ReturnType<typeof getVoteRate>>,
+  TError = unknown,
+>(
+  params: GetVoteRateParams,
+  options?: {
+    query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getVoteRate>>, TError, TData>>;
+  },
+) => {
+  const { query: queryOptions } = options ?? {};
+
+  const queryKey = queryOptions?.queryKey ?? getGetVoteRateQueryKey(params);
+
+  const queryFn: QueryFunction<Awaited<ReturnType<typeof getVoteRate>>> = ({ signal }) =>
+    getVoteRate(params, signal);
+
+  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+    Awaited<ReturnType<typeof getVoteRate>>,
+    TError,
+    TData
+  > & { queryKey: QueryKey };
+};
+
+export type GetVoteRateQueryResult = NonNullable<Awaited<ReturnType<typeof getVoteRate>>>;
+export type GetVoteRateQueryError = unknown;
+
+export function useGetVoteRate<TData = Awaited<ReturnType<typeof getVoteRate>>, TError = unknown>(
+  params: GetVoteRateParams,
+  options: {
+    query: Partial<UseQueryOptions<Awaited<ReturnType<typeof getVoteRate>>, TError, TData>> &
+      Pick<
+        DefinedInitialDataOptions<Awaited<ReturnType<typeof getVoteRate>>, TError, TData>,
+        'initialData'
+      >;
+  },
+): DefinedUseQueryResult<TData, TError> & { queryKey: QueryKey };
+export function useGetVoteRate<TData = Awaited<ReturnType<typeof getVoteRate>>, TError = unknown>(
+  params: GetVoteRateParams,
+  options?: {
+    query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getVoteRate>>, TError, TData>> &
+      Pick<
+        UndefinedInitialDataOptions<Awaited<ReturnType<typeof getVoteRate>>, TError, TData>,
+        'initialData'
+      >;
+  },
+): UseQueryResult<TData, TError> & { queryKey: QueryKey };
+export function useGetVoteRate<TData = Awaited<ReturnType<typeof getVoteRate>>, TError = unknown>(
+  params: GetVoteRateParams,
+  options?: {
+    query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getVoteRate>>, TError, TData>>;
+  },
+): UseQueryResult<TData, TError> & { queryKey: QueryKey };
+/**
+ * @summary 특정 투표의 옵션들 투표율 조회
+ */
+
+export function useGetVoteRate<TData = Awaited<ReturnType<typeof getVoteRate>>, TError = unknown>(
+  params: GetVoteRateParams,
+  options?: {
+    query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getVoteRate>>, TError, TData>>;
+  },
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+  const queryOptions = getGetVoteRateQueryOptions(params, options);
+
+  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  query.queryKey = queryOptions.queryKey;
+
+  return query;
+}

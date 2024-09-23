@@ -7,6 +7,6 @@
  */
 
 export type SubmitVoteParams = {
-pollId: number;
-optionId: number;
+  pollId: number;
+  optionId: number;
 };
