@@ -3,10 +3,10 @@
 import Link from 'next/link';
 // import Image from 'next/image';
 import { createRoute } from '@/constants/routes';
-import { Post } from '@/api/generated/model';
+import { PostDTO } from '@/api/generated/model';
 
 interface PostsProps {
-  posts: Post[] | undefined;
+  posts: PostDTO[] | undefined;
 }
 
 const Posts = ({ posts }: PostsProps) => {
@@ -16,8 +16,8 @@ const Posts = ({ posts }: PostsProps) => {
       <div className="mb-14 flex justify-center">
         <div className="grid w-[358px] grid-cols-2 gap-x-[16px] gap-y-6">
           {/* TODO: Image 컴포넌트 활성화 */}
-          {posts?.map(({ id, title }) => (
-            <Link key={id} href={createRoute.postDetail(id)}>
+          {posts?.map(({ postUid, title }) => (
+            <Link key={postUid} href={createRoute.postDetail(postUid)}>
               {/* <Image
                 src={image}
                 alt={title}
