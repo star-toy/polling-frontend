@@ -1,18 +1,22 @@
 'use client';
 
 import Image from 'next/image';
+import { AxiosError } from 'axios';
+import { useFindAllPostsList } from '@/api/generated/endpoints/게시글-post/게시글-post';
 import Banner from '@/components/pages/main-page/banner';
 import PollItemList from '@/components/pages/main-page/poll-item-list';
-import { useFindAllPosts } from '@/api/generated/endpoints/게시글-post/게시글-post';
+import { PostListResponse } from '@/api/generated/model';
+import '@/libs/axios-interceptor';
 
 const MainPage = () => {
-  const { data: posts, isLoading, error } = useFindAllPosts();
+  const {
+    data: posts,
+    isLoading,
+    error,
+  } = useFindAllPostsList<PostListResponse, AxiosError | Error>();
 
   if (isLoading) return <div>로딩중...</div>;
-  if (error) {
-    const errorMessage = error instanceof Error ? error.message : '알 수 없는 에러가 발생했습니다.';
-    return <div>{errorMessage}</div>;
-  }
+  if (error) return <div>{error.message}</div>;
 
   return (
     <>
