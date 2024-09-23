@@ -6,5 +6,5 @@ export const ROUTES = {
 
 export const createRoute = {
   postDetail: (id: number | undefined) =>
-    id === undefined ? ROUTES.NOT_FOUND : ROUTES.POST_DETAIL.replace(':id', id.toString()),
+    !id ? ROUTES.NOT_FOUND : ROUTES.POST_DETAIL.replace(':id', id.toString()),
 };
