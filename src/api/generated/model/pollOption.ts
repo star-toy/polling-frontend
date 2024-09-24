@@ -11,7 +11,7 @@ export interface PollOption {
   createdAt?: string;
   createdBy: string;
   fileId?: string;
-  id: number;
+  id?: number;
   isDeleted: boolean;
   poll?: Poll;
   pollOptionSeq: number;
