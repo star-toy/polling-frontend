@@ -8,7 +8,13 @@ import PollOptions from '@/components/pages/post-detail-page/poll-options';
 import { useGetPostByUid } from '@/api/generated/endpoints/게시글-post/게시글-post';
 import { PostDetailResponse } from '@/api/generated/model';
 
-const PostDetailPage = ({ params }: { params: { id: number } }) => {
+interface PostDetailPageProps {
+  params: {
+    id: number;
+  };
+}
+
+const PostDetailPage = ({ params }: PostDetailPageProps) => {
   const id = String(params.id);
   const {
     data: post,
