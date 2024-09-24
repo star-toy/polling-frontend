@@ -5,10 +5,11 @@ interface OverlayProps {
   pollOption: PollOptionDTO;
 }
 
+// Todo: 공통 컴포넌트로 분리하기
 const Overlay = ({ selectedPollOption, pollOption }: OverlayProps) => {
   return (
     <div
-      className={`absolute left-0 top-0 flex h-[140px] w-full items-center justify-center bg-banner-gradient transition duration-300 ease-in-out ${
+      className={`bg-background-gradient absolute left-0 top-0 flex h-[140px] w-full items-center justify-center transition duration-300 ease-in-out ${
         selectedPollOption ? 'opacity-100' : 'opacity-0'
       }`}
     >
