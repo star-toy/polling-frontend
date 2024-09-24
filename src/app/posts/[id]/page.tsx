@@ -1,18 +1,41 @@
+'use client';
+
 import Image from 'next/image';
+import { useState, useEffect } from 'react';
+import { AxiosError } from 'axios';
 import PollCategories from '@/components/pages/post-detail-page/poll-categories';
 import PollOptions from '@/components/pages/post-detail-page/poll-options';
-import { POLL_CATEGORIES } from '@/mock-data/post-mock-data';
+import { useGetPostByUid } from '@/api/generated/endpoints/게시글-post/게시글-post';
+import { PostDetailResponse } from '@/api/generated/model';
 
-const PostDetailPage = () => {
+const PostDetailPage = ({ params }: { params: { id: number } }) => {
+  const id = String(params.id);
+  const {
+    data: post,
+    isLoading,
+    error,
+  } = useGetPostByUid<PostDetailResponse, AxiosError | Error>(id);
+  const [selectedPollCategory, setSelectedPollCategory] = useState<string | undefined>(undefined);
+
+  const selectedPoll = post?.polls?.find((poll) => poll.pollCategory === selectedPollCategory);
+
+  useEffect(() => {
+    const firstCategory = post?.polls?.[0]?.pollCategory;
+    setSelectedPollCategory(firstCategory);
+  }, [post]);
+
+  if (isLoading) return <div>로딩 중...</div>;
+  if (error) <div>{error.message}</div>;
+
   return (
     <>
       {/* 투표 제목 및 설명 섹션 */}
       <div className="mx-4 mb-2 mt-6 flex flex-col gap-2">
         <h2 className="text-sub-title-2">투표</h2>
-        <p className="text-sub-title-4">
-          시청자(Kpop 팬)들이 원하는 음악방송 3분기 결산 때 보고 싶은 가을 특별 무대는?
-        </p>
+        <p className="text-sub-title-4">{post?.title}</p>
       </div>
+
+      {/* TODO: API에서 제공하는 이미지 값으로 변경 */}
       <Image
         src="/images/image(6).png"
         alt="게시글 이미지"
@@ -24,10 +47,14 @@ const PostDetailPage = () => {
 
       {/* 투표 컨텐츠 섹션 */}
       <div className="px-4 pb-[27px] pt-8">
-        <PollCategories categories={POLL_CATEGORIES} />
-        <p className="mb-2 text-body-1">가을 특별 무대에서 보고 싶은 아티스트를 골라주세요.</p>
+        <PollCategories
+          id={id}
+          selectedPollCategory={selectedPollCategory}
+          onSelectedPollCategory={setSelectedPollCategory}
+        />
+        <p className="mb-2 text-body-1">{selectedPoll?.pollDescription}</p>
         <div className="mb-6 border border-gray-200" />
-        <PollOptions />
+        <PollOptions pollOptions={selectedPoll?.pollOptions} />
       </div>
     </>
   );
