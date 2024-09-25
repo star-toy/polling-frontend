@@ -30,8 +30,8 @@ const PostDetailPage = ({ params }: PostDetailPageProps) => {
     setSelectedPollCategory(firstCategory);
   }, [post]);
 
-  if (isLoading) return <div>로딩 중...</div>;
-  if (error) <div>{error.message}</div>;
+  if (isLoading) return <div>로딩중...</div>;
+  if (error) return <div>{error.message}</div>;
 
   return (
     <>
