@@ -11,7 +11,7 @@ const HeaderWithArrow = () => {
       <button onClick={() => router.push(NAVIGATE_TO_MAIN)} className="absolute left-5">
         <Image src={'/svgs/back-icon.svg'} alt="뒤로가기 버튼" width={24} height={24} />
       </button>
-      <h1 className="text-lg font-extrabold text-gray-800">POLLHUB</h1>
+      <h1 className="text-lg font-extrabold text-gray-800">POLLING</h1>
     </header>
   );
 };
