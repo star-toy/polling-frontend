@@ -10,8 +10,14 @@ const buttonVariants = cva(
     variants: {
       variant: {
         default: '',
-        'chip-primary': 'rounded-2xl px-4 py-[4.5px] border border-gray-300 bg-gray-50',
+        'chip-primary':
+          'rounded-2xl px-4 py-[4.5px] border border-gray-300 bg-gray-50 text-gray-700',
         'chip-secondary': 'rounded-2xl px-4 py-[4.5px] border border-black bg-black text-white',
+        'modal-cancel':
+          'bg-gray-100 text-gray-700 flex justify-center items-center px-2 py-4 rounded-md',
+        'modal-action':
+          'bg-gray-900 text-white flex justify-center items-center px-2 py-4 rounded-md',
+        'action': 'bg-gray-900 py-2 px-4 rounded-md text-white',
       },
       font: {
         'sub-title-1': 'text-[28px] leading-[150%] font-semibold',
@@ -24,11 +30,12 @@ const buttonVariants = cva(
         'caption-1': 'text-[14px] leading-[150%] font-semibold',
         'caption-2': 'text-[13px] leading-[120%] font-semibold',
         'caption-3': 'text-[13px] leading-[120%] font-medium',
+        'default': 'text-[16px] leading-[150%]',
       },
     },
     defaultVariants: {
       variant: 'default',
-      font: 'sub-title-4',
+      font: 'default',
     },
   },
 );
