@@ -13,9 +13,11 @@ export interface Post {
   fileId?: string;
   id?: number;
   isDeleted: boolean;
+  linkedUid?: string;
   polls?: Poll[];
   postUid: string;
   title: string;
   updatedAt?: string;
   updatedBy?: string;
+  uploadableType?: string;
 }

@@ -5,12 +5,12 @@
  * polling API Document
  * OpenAPI spec version: 1.0.0
  */
-import type { PollDTO } from './pollDTO';
+import type { PollDetailResponse } from './pollDetailResponse';
 
 export interface PostDetailResponse {
   createdAt?: string;
   createdBy?: string;
-  polls?: PollDTO[];
+  polls?: PollDetailResponse[];
   postUid?: string;
   title?: string;
 }

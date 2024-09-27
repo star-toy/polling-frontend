@@ -6,14 +6,17 @@
  * OpenAPI spec version: 1.0.0
  */
 
+export * from './fileStorageDTO';
 export * from './getVoteRateParams';
 export * from './optionVoteRateDTO';
 export * from './poll';
 export * from './pollCreateRequest';
 export * from './pollDTO';
+export * from './pollDetailResponse';
 export * from './pollOption';
 export * from './pollOptionCreateRequest';
 export * from './pollOptionDTO';
+export * from './pollOptionResponse';
 export * from './post';
 export * from './postCreateRequest';
 export * from './postCreateResponse';
@@ -23,3 +26,6 @@ export * from './postListResponse';
 export * from './submitVoteParams';
 export * from './uploadFile200';
 export * from './uploadFileBody';
+export * from './uploadFileParams';
+export * from './voteCreateRequest';
+export * from './voteCreateResponse';

@@ -13,10 +13,12 @@ export interface PollOption {
   fileId?: string;
   id?: number;
   isDeleted: boolean;
+  linkedUid?: string;
   poll?: Poll;
   pollOptionSeq: number;
   pollOptionText?: string;
   pollOptionUid: string;
   updatedAt?: string;
   updatedBy?: string;
+  uploadableType?: string;
 }
