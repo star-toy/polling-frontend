@@ -5,19 +5,15 @@
  * polling API Document
  * OpenAPI spec version: 1.0.0
  */
-import type { FileStorage } from './fileStorage';
-import type { Poll } from './poll';
 
-export interface Post {
-  createdAt?: string;
+export interface FileStorage {
+  createdAt: string;
   createdBy: string;
-  file?: FileStorage;
+  fileFullName: string;
+  fileLinkedUid: string;
+  fileUid: string;
   id?: number;
   isDeleted: boolean;
-  linkedUid?: string;
-  polls?: Poll[];
-  postUid: string;
-  title: string;
   updatedAt?: string;
   updatedBy?: string;
   uploadableType?: string;
