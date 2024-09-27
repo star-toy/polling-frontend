@@ -10,12 +10,14 @@ import type { Poll } from './poll';
 export interface Post {
   createdAt?: string;
   createdBy: string;
-  fileId: string;
-  id: number;
+  fileId?: string;
+  id?: number;
   isDeleted: boolean;
+  linkedUid?: string;
   polls?: Poll[];
   postUid: string;
   title: string;
   updatedAt?: string;
   updatedBy?: string;
+  uploadableType?: string;
 }

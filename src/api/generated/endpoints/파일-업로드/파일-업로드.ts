@@ -5,16 +5,23 @@
  * polling API Document
  * OpenAPI spec version: 1.0.0
  */
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import type {
+  DefinedInitialDataOptions,
+  DefinedUseQueryResult,
   MutationFunction,
+  QueryFunction,
+  QueryKey,
+  UndefinedInitialDataOptions,
   UseMutationOptions,
   UseMutationResult,
+  UseQueryOptions,
+  UseQueryResult,
 } from '@tanstack/react-query';
-import type { UploadFile200, UploadFileBody } from '../../model';
+import type { FileStorageDTO, UploadFile200, UploadFileBody, UploadFileParams } from '../../model';
 import { customInstance } from '../../mutator/custom-instance';
 
-export const uploadFile = (uploadFileBody: UploadFileBody) => {
+export const uploadFile = (uploadFileBody: UploadFileBody, params: UploadFileParams) => {
   const formData = new FormData();
   formData.append('file', uploadFileBody.file);
 
@@ -23,6 +30,7 @@ export const uploadFile = (uploadFileBody: UploadFileBody) => {
     method: 'POST',
     headers: { 'Content-Type': 'multipart/form-data' },
     data: formData,
+    params,
   });
 };
 
@@ -30,24 +38,24 @@ export const getUploadFileMutationOptions = <TError = unknown, TContext = unknow
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof uploadFile>>,
     TError,
-    { data: UploadFileBody },
+    { data: UploadFileBody; params: UploadFileParams },
     TContext
   >;
 }): UseMutationOptions<
   Awaited<ReturnType<typeof uploadFile>>,
   TError,
-  { data: UploadFileBody },
+  { data: UploadFileBody; params: UploadFileParams },
   TContext
 > => {
   const { mutation: mutationOptions } = options ?? {};
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof uploadFile>>,
-    { data: UploadFileBody }
+    { data: UploadFileBody; params: UploadFileParams }
   > = (props) => {
-    const { data } = props ?? {};
+    const { data, params } = props ?? {};
 
-    return uploadFile(data);
+    return uploadFile(data, params);
   };
 
   return { mutationFn, ...mutationOptions };
@@ -61,16 +69,91 @@ export const useUploadFile = <TError = unknown, TContext = unknown>(options?: {
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof uploadFile>>,
     TError,
-    { data: UploadFileBody },
+    { data: UploadFileBody; params: UploadFileParams },
     TContext
   >;
 }): UseMutationResult<
   Awaited<ReturnType<typeof uploadFile>>,
   TError,
-  { data: UploadFileBody },
+  { data: UploadFileBody; params: UploadFileParams },
   TContext
 > => {
   const mutationOptions = getUploadFileMutationOptions(options);
 
   return useMutation(mutationOptions);
 };
+export const getFileByUid = (fileUid: string, signal?: AbortSignal) => {
+  return customInstance<FileStorageDTO>({ url: `/v1/files/${fileUid}`, method: 'GET', signal });
+};
+
+export const getGetFileByUidQueryKey = (fileUid: string) => {
+  return [`/v1/files/${fileUid}`] as const;
+};
+
+export const getGetFileByUidQueryOptions = <
+  TData = Awaited<ReturnType<typeof getFileByUid>>,
+  TError = unknown,
+>(
+  fileUid: string,
+  options?: {
+    query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getFileByUid>>, TError, TData>>;
+  },
+) => {
+  const { query: queryOptions } = options ?? {};
+
+  const queryKey = queryOptions?.queryKey ?? getGetFileByUidQueryKey(fileUid);
+
+  const queryFn: QueryFunction<Awaited<ReturnType<typeof getFileByUid>>> = ({ signal }) =>
+    getFileByUid(fileUid, signal);
+
+  return { queryKey, queryFn, enabled: !!fileUid, ...queryOptions } as UseQueryOptions<
+    Awaited<ReturnType<typeof getFileByUid>>,
+    TError,
+    TData
+  > & { queryKey: QueryKey };
+};
+
+export type GetFileByUidQueryResult = NonNullable<Awaited<ReturnType<typeof getFileByUid>>>;
+export type GetFileByUidQueryError = unknown;
+
+export function useGetFileByUid<TData = Awaited<ReturnType<typeof getFileByUid>>, TError = unknown>(
+  fileUid: string,
+  options: {
+    query: Partial<UseQueryOptions<Awaited<ReturnType<typeof getFileByUid>>, TError, TData>> &
+      Pick<
+        DefinedInitialDataOptions<Awaited<ReturnType<typeof getFileByUid>>, TError, TData>,
+        'initialData'
+      >;
+  },
+): DefinedUseQueryResult<TData, TError> & { queryKey: QueryKey };
+export function useGetFileByUid<TData = Awaited<ReturnType<typeof getFileByUid>>, TError = unknown>(
+  fileUid: string,
+  options?: {
+    query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getFileByUid>>, TError, TData>> &
+      Pick<
+        UndefinedInitialDataOptions<Awaited<ReturnType<typeof getFileByUid>>, TError, TData>,
+        'initialData'
+      >;
+  },
+): UseQueryResult<TData, TError> & { queryKey: QueryKey };
+export function useGetFileByUid<TData = Awaited<ReturnType<typeof getFileByUid>>, TError = unknown>(
+  fileUid: string,
+  options?: {
+    query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getFileByUid>>, TError, TData>>;
+  },
+): UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+export function useGetFileByUid<TData = Awaited<ReturnType<typeof getFileByUid>>, TError = unknown>(
+  fileUid: string,
+  options?: {
+    query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getFileByUid>>, TError, TData>>;
+  },
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+  const queryOptions = getGetFileByUidQueryOptions(fileUid, options);
+
+  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  query.queryKey = queryOptions.queryKey;
+
+  return query;
+}

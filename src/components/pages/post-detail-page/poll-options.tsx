@@ -3,48 +3,56 @@
 import { useState } from 'react';
 import Image from 'next/image';
 import { Button } from '@/components/shadcn-ui/ui/button';
-import { PollOptionType } from '@/mock-data/post-mock-data';
-import { POLL_OPTIONS } from '@/mock-data/post-mock-data';
 import Overlay from '@/components/overlay';
+import { PollOptionDTO } from '@/api/generated/model';
 
-const PollOptions = () => {
-  const [selectedPollOption, setSelectedPollOption] = useState<PollOptionType | null>(null);
+interface PollOptionsProps {
+  pollOptions: PollOptionDTO[] | undefined;
+}
 
-  const handlePollOptionClick = (option: PollOptionType) => {
-    setSelectedPollOption((prevOption) => (prevOption?.id === option.id ? null : option));
+const PollOptions = ({ pollOptions }: PollOptionsProps) => {
+  const [selectedPollOption, setSelectedPollOption] = useState<PollOptionDTO | null>(null);
+
+  const handlePollOptionClick = (pollOption: PollOptionDTO) => {
+    setSelectedPollOption((prevOption) =>
+      prevOption?.pollOptionUid === pollOption.pollOptionUid ? null : pollOption,
+    );
   };
 
   return (
     <div className="grid w-[358px] grid-cols-2 gap-x-[16px] gap-y-4">
-      {POLL_OPTIONS.map((option) => (
+      {pollOptions?.map((pollOption) => (
         <Button
-          key={option.id}
-          className={`relative flex-col overflow-hidden rounded-lg transition duration-300 ease-in-out ${
-            selectedPollOption?.id === option.id && 'ring-1 ring-gray-800'
+          key={pollOption.pollOptionUid}
+          className={`relative flex flex-col overflow-hidden rounded-lg transition duration-300 ease-in-out ${
+            selectedPollOption?.pollOptionUid === pollOption.pollOptionUid && 'ring-1 ring-gray-800'
           }`}
-          onClick={() => handlePollOptionClick(option)}
+          onClick={() => handlePollOptionClick(pollOption)}
         >
+          {/* TODO: API에서 제공하는 이미지 값으로 변경 및 props 주석 해제 */}
           <Image
-            src={option.image}
-            alt={option.content}
+            src="/images/image(6).png"
+            alt="게시글 이미지"
             width={390}
             height={140}
-            placeholder="blur"
-            blurDataURL={option.image}
+            // placeholder="blur"
+            // blurDataURL={pollOption.image}
             className="h-[140px] object-cover"
           />
-          <div className="flex min-h-[37px] w-full items-center justify-center rounded-b-lg border border-gray-200 bg-gray-50">
+          <div className="flex min-h-[37px] w-full items-center justify-center rounded-b-lg border border-gray-200 bg-gray-50 px-4 py-2">
             <span
               className={`text-caption-1 transition-colors duration-300 ${
-                selectedPollOption?.id === option.id ? 'text-black' : 'text-gray-700'
+                selectedPollOption?.pollOptionUid === pollOption.pollOptionUid
+                  ? 'text-black'
+                  : 'text-gray-700'
               }`}
             >
-              {option.content}
+              {pollOption.pollOptionText}
             </span>
           </div>
 
           {/*전체 옵션에 대한 득표율 오버레이 */}
-          <Overlay option={option} selectedPollOption={selectedPollOption} />
+          <Overlay pollOption={pollOption} selectedPollOption={selectedPollOption} />
         </Button>
       ))}
     </div>

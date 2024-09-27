@@ -18,7 +18,13 @@ import type {
   UseQueryOptions,
   UseQueryResult,
 } from '@tanstack/react-query';
-import type { Post, PostDetailResponse, PostListResponse } from '../../model';
+import type {
+  Post,
+  PostCreateRequest,
+  PostCreateResponse,
+  PostDetailResponse,
+  PostListResponse,
+} from '../../model';
 import { customInstance } from '../../mutator/custom-instance';
 
 /**
@@ -154,6 +160,69 @@ export const useCreatePost = <TError = unknown, TContext = unknown>(options?: {
   >;
 }): UseMutationResult<Awaited<ReturnType<typeof createPost>>, TError, { data: Post }, TContext> => {
   const mutationOptions = getCreatePostMutationOptions(options);
+
+  return useMutation(mutationOptions);
+};
+/**
+ * @summary 새로운 게시글 생성
+ */
+export const createPost1 = (postCreateRequest: PostCreateRequest) => {
+  return customInstance<PostCreateResponse>({
+    url: `/v1/posts/new/`,
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    data: postCreateRequest,
+  });
+};
+
+export const getCreatePost1MutationOptions = <TError = unknown, TContext = unknown>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof createPost1>>,
+    TError,
+    { data: PostCreateRequest },
+    TContext
+  >;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof createPost1>>,
+  TError,
+  { data: PostCreateRequest },
+  TContext
+> => {
+  const { mutation: mutationOptions } = options ?? {};
+
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof createPost1>>,
+    { data: PostCreateRequest }
+  > = (props) => {
+    const { data } = props ?? {};
+
+    return createPost1(data);
+  };
+
+  return { mutationFn, ...mutationOptions };
+};
+
+export type CreatePost1MutationResult = NonNullable<Awaited<ReturnType<typeof createPost1>>>;
+export type CreatePost1MutationBody = PostCreateRequest;
+export type CreatePost1MutationError = unknown;
+
+/**
+ * @summary 새로운 게시글 생성
+ */
+export const useCreatePost1 = <TError = unknown, TContext = unknown>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof createPost1>>,
+    TError,
+    { data: PostCreateRequest },
+    TContext
+  >;
+}): UseMutationResult<
+  Awaited<ReturnType<typeof createPost1>>,
+  TError,
+  { data: PostCreateRequest },
+  TContext
+> => {
+  const mutationOptions = getCreatePost1MutationOptions(options);
 
   return useMutation(mutationOptions);
 };

@@ -12,7 +12,7 @@ export interface Poll {
   createdAt?: string;
   createdBy: string;
   expiresAt?: string;
-  id: number;
+  id?: number;
   isDeleted: boolean;
   options?: PollOption[];
   pollCategory: string;

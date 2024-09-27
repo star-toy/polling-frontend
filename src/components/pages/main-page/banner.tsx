@@ -43,7 +43,7 @@ const Banner = () => {
         </div>
       ))}
       <div className="absolute h-full w-full px-4 pb-6 pt-10">
-        <h1 className="text-[34px] font-semibold text-white">PollHub</h1>
+        <h1 className="text-[34px] font-semibold text-white">폴링</h1>
         <div className="my-4 border-b bg-gray-500 opacity-50"></div>
         <p className="text-body1 mb-4 text-white">
           아티스트에 대한 관심과 사랑을
