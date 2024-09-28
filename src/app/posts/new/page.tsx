@@ -332,7 +332,7 @@ const PostCreatePage = () => {
       </section>
 
       <div
-        className={`fixed bottom-0 left-0 flex w-full items-center justify-center bg-white px-4 py-6 shadow-[0_-8px_10px_0_rgba(0,0,0,0.1)] transition-all duration-300 ease-in-out ${
+        className={`fixed bottom-0 left-[50%] flex w-[var(--layout-width)] -translate-x-1/2 transform items-center justify-center bg-white px-4 py-6 shadow-[0_-8px_10px_0_rgba(0,0,0,0.1)] transition-all duration-300 ease-in-out ${
           displayButton ? 'translate-y-0 opacity-100' : 'translate-y-full opacity-0'
         }`}
       >
