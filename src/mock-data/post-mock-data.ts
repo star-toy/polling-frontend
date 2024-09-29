@@ -11,6 +11,117 @@ export interface PollOptionType {
   pollingRate: number;
 }
 
+export const POLL_DATA = {
+  'title': '크리스마스 연말 무대 때 보고 싶은 무대는?',
+  'polls': [
+    {
+      'pollSeq': 1,
+      'pollCategory': '노래',
+      'pollDescription': '크리스마스 무대에서 들어보고 싶은 노래를 선택해주세요.',
+      'pollOptions': [
+        {
+          'pollOptionUid': '100',
+          'pollOptionSeq': 1,
+          'pollOptionText': '캐롤 메들리',
+          'votedCount': 100,
+          'imageUrl': 'string',
+        },
+        {
+          'pollOptionUid': '200',
+          'pollOptionSeq': 2,
+          'pollOptionText': '겨울 발라드',
+          'votedCount': 200,
+          'imageUrl': 'string',
+        },
+        {
+          'pollOptionUid': '300',
+          'pollOptionSeq': 3,
+          'pollOptionText': '신나는 댄스곡',
+          'votedCount': 300,
+          'imageUrl': 'string',
+        },
+        {
+          'pollOptionUid': '400',
+          'pollOptionSeq': 4,
+          'pollOptionText': '아카펠라 공연',
+          'votedCount': 400,
+          'imageUrl': 'string',
+        },
+      ],
+    },
+    {
+      'pollSeq': 2,
+      'pollCategory': '무대 컨셉',
+      'pollDescription': '크리스마스 무대의 전반적인 분위기를 선택해주세요.',
+      'pollOptions': [
+        {
+          'pollOptionUid': '100',
+          'pollOptionSeq': 1,
+          'pollOptionText': '로맨틱한 분위기',
+          'votedCount': 100,
+          'imageUrl': 'string',
+        },
+        {
+          'pollOptionUid': '200',
+          'pollOptionSeq': 2,
+          'pollOptionText': '화려한 파티 분위기',
+          'votedCount': 400,
+          'imageUrl': 'string',
+        },
+        {
+          'pollOptionUid': '300',
+          'pollOptionSeq': 3,
+          'pollOptionText': '따뜻한 가족 분위기',
+          'votedCount': 300,
+          'imageUrl': 'string',
+        },
+        {
+          'pollOptionUid': '400',
+          'pollOptionSeq': 4,
+          'pollOptionText': '동화 속 겨울왕국',
+          'votedCount': 400,
+          'imageUrl': 'string',
+        },
+      ],
+    },
+    {
+      'pollSeq': 3,
+      'pollCategory': '아이돌',
+      'pollDescription': '무대를 섰으면 하는 아이돌을 선택해주세요.',
+      'pollOptions': [
+        {
+          'pollOptionUid': '100',
+          'pollOptionSeq': 1,
+          'pollOptionText': '뉴진스 하니',
+          'votedCount': 100,
+          'imageUrl': 'string',
+        },
+        {
+          'pollOptionUid': '200',
+          'pollOptionSeq': 2,
+          'pollOptionText': '씨스타 보라',
+          'votedCount': 200,
+          'imageUrl': 'string',
+        },
+        {
+          'pollOptionUid': '300',
+          'pollOptionSeq': 3,
+          'pollOptionText': '스테이시 시은',
+          'votedCount': 300,
+          'imageUrl': 'string',
+        },
+        {
+          'pollOptionUid': '400',
+          'pollOptionSeq': 4,
+          'pollOptionText': '아이브 안유진',
+          'votedCount': 400,
+          'imageUrl': 'string',
+        },
+      ],
+    },
+  ],
+};
+
 export const POLL_ITEMS: PollItemType[] = [
   {
     id: 1,
