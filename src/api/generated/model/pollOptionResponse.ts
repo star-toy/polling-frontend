@@ -7,6 +7,7 @@
  */
 
 export interface PollOptionResponse {
+  imageUrl?: string;
   pollOptionSeq?: number;
   pollOptionText?: string;
   pollOptionUid?: string;

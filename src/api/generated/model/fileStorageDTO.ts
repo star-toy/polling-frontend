@@ -9,5 +9,4 @@
 export interface FileStorageDTO {
   fileFullName?: string;
   fileUid?: string;
-  fileUrl?: string;
 }

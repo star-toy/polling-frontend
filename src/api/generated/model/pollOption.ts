@@ -5,12 +5,13 @@
  * polling API Document
  * OpenAPI spec version: 1.0.0
  */
+import type { FileStorage } from './fileStorage';
 import type { Poll } from './poll';
 
 export interface PollOption {
   createdAt?: string;
   createdBy: string;
-  fileId?: string;
+  file?: FileStorage;
   id?: number;
   isDeleted: boolean;
   linkedUid?: string;
