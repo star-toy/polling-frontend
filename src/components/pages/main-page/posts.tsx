@@ -1,9 +1,10 @@
 'use client';
 
 import Link from 'next/link';
-// import Image from 'next/image';
+import Image from 'next/image';
 import { AxiosError } from 'axios';
-import { useFindAllPostsList } from '@/api/generated/endpoints/게시글-post/게시글-post';
+
+import { useFindAllPostsList } from '@/api/generated/endpoints/post/post';
 import { createRoute } from '@/constants/routes';
 import { PostDTO } from '@/api/generated/model';
 import { PostListResponse } from '@/api/generated/model';
@@ -19,18 +20,19 @@ const Posts = () => {
       <h2 className="mb-6 ml-4 text-sub-title-3">투표</h2>
       <div className="mb-14 flex justify-center">
         <div className="grid w-[358px] grid-cols-2 gap-x-[16px] gap-y-6">
-          {/* TODO: Image 컴포넌트 활성화 */}
-          {data?.posts?.map(({ postUid, title }: PostDTO) => (
+          {data?.posts?.map(({ postUid, title, imageUrl }: PostDTO) => (
             <Link key={postUid} href={createRoute.postDetail(postUid)}>
-              {/* <Image
-                src={image}
-                alt={title}
-                width={171}
-                height={171}
-                placeholder="blur"
-                blurDataURL={image}
-                className="mb-2 rounded-lg object-cover"
-              /> */}
+              {imageUrl && (
+                <Image
+                  src={imageUrl}
+                  alt={title || '게시글 이미지'}
+                  width={171}
+                  height={171}
+                  placeholder="blur"
+                  blurDataURL={imageUrl}
+                  className="mb-2 h-[171px] rounded-lg object-cover"
+                />
+              )}
               <p className="line-clamp-2 text-caption-1">{title}</p>
             </Link>
           ))}
