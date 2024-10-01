@@ -25,7 +25,7 @@ const Posts = () => {
               {imageUrl && (
                 <Image
                   src={imageUrl}
-                  alt={title || '게시글 이미지'}
+                  alt="게시글 이미지"
                   width={171}
                   height={171}
                   placeholder="blur"
