@@ -9,7 +9,7 @@
 export interface PostDTO {
   createdAt?: string;
   createdBy?: string;
-  fileFullName?: string;
+  fileName?: string;
   fileUid?: string;
   postUid?: string;
   title?: string;
