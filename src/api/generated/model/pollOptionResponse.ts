@@ -7,8 +7,7 @@
  */
 
 export interface PollOptionResponse {
-  fileName: string;
-  fileUid: string;
+  imageUrl: string;
   pollOptionSeq: number;
   pollOptionText: string;
   pollOptionUid: string;
