@@ -10,8 +10,7 @@ import type { PollDetailResponse } from './pollDetailResponse';
 export interface PostDetailResponse {
   createdAt: string;
   createdBy: string;
-  fileName: string;
-  fileUid: string;
+  imageUrl?: string;
   polls: PollDetailResponse[];
   postUid: string;
   title: string;
