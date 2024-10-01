@@ -7,6 +7,6 @@
  */
 
 export interface FileStorageDTO {
-  fileFullName?: string;
-  fileUid?: string;
+  fileFullName: string;
+  fileUid: string;
 }
