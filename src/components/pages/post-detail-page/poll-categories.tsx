@@ -1,9 +1,10 @@
 'use client';
 
 import { AxiosError } from 'axios';
-import { useGetPostByUid } from '@/api/generated/endpoints/게시글-post/게시글-post';
+
 import { Button } from '@/components/shadcn-ui/ui/button';
-import { PostDetailResponse } from './../../../api/generated/model/postDetailResponse';
+import { useGetPostByUid } from '@/api/generated/endpoints/post/post';
+import { PostDetailResponse } from '@/api/generated/model/postDetailResponse';
 
 interface PollCategoriesProps {
   id: string;
@@ -16,12 +17,9 @@ const PollCategories = ({
   selectedPollCategory,
   onSelectedPollCategory,
 }: PollCategoriesProps) => {
-  const {
-    data: post,
-    isLoading,
-    error,
-  } = useGetPostByUid<PostDetailResponse, AxiosError | Error>(id);
-  const categories = post?.polls?.map((poll) => poll.pollCategory);
+  // TODO: API 연동
+  const { data, isLoading, error } = useGetPostByUid<PostDetailResponse, AxiosError | Error>(id);
+  const categories = data?.polls?.map((poll) => poll.pollCategory);
 
   const getPollCategoryVariant = (
     selectedPollCategory: string | undefined,
@@ -44,6 +42,7 @@ const PollCategories = ({
           variant={getPollCategoryVariant(selectedPollCategory, category)}
           font={getPollCategoryFont(selectedPollCategory, category)}
           onClick={() => onSelectedPollCategory(category)}
+          className="transition duration-300 ease-in-out"
         >
           {category}
         </Button>
