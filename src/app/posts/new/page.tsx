@@ -1,12 +1,10 @@
 'use client';
 
-import { useState, useCallback, useMemo, useRef, useEffect } from 'react';
 import Image from 'next/image';
 
 import { Textarea } from '@/components/shadcn-ui/ui/textarea';
 import { Button } from '@/components/shadcn-ui/ui/button';
 import { Input } from '@/components/shadcn-ui/ui/input';
-import { PollCreateRequest } from '@/api/generated/model';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -17,107 +15,35 @@ import {
   AlertDialogTrigger,
 } from '@/components/shadcn-ui/ui/alert-dialog';
 
+import { usePostsNew } from './hooks';
+
 const MAX_POLL_COUNT = 3;
-const MAX_OPTION_COUNT = 4;
 
-const createPoll = (index: number): PollCreateRequest => ({
-  pollCategory: `카테고리 ${index + 1}`,
-  pollDescription: '',
-  pollOptions: Array.from({ length: MAX_OPTION_COUNT }, (_, index) => ({
-    pollOptionText: `선택지 ${index + 1}`,
-    pollOptionSeq: index + 1,
-  })),
-  pollSeq: index + 1,
-});
-
-const PostCreatePage = () => {
-  const lastScrollY = useRef(0);
-
-  const [title, setTitle] = useState('');
-
-  const [polls, setPolls] = useState<PollCreateRequest[]>([createPoll(0)]);
-
-  const [selectedPollIndex, setSelectedPollIndex] = useState<number>(0);
-  const [selectedOptionIndex, setSelectedOptionIndex] = useState<number>(0);
-
-  const [displayButton, setDisplayButton] = useState(true);
-
-  const poll = useMemo(() => polls[selectedPollIndex], [polls, selectedPollIndex]);
-  const option = useMemo(() => poll.pollOptions[selectedOptionIndex], [poll, selectedOptionIndex]);
-
-  const handleTitle = useCallback((e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setTitle(e.target.value);
-  }, []);
-
-  const handleSelectedPollIndex = useCallback((index: number) => {
-    setSelectedPollIndex(index);
-    setSelectedOptionIndex(0);
-  }, []);
-  const removePoll = useCallback(() => {
-    setPolls((prev) => prev.filter((_, index) => index !== selectedPollIndex));
-    setSelectedPollIndex(selectedPollIndex - 1);
-    setSelectedOptionIndex(0);
-  }, [selectedPollIndex]);
-
-  const handlePollCategory = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      setPolls((prev) => {
-        const newPolls = [...prev];
-        newPolls[selectedPollIndex].pollCategory = e.target.value;
-        return newPolls;
-      });
-    },
-    [selectedPollIndex],
-  );
-
-  const handlePollDescription = useCallback(
-    (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-      setPolls((prev) => {
-        const newPolls = [...prev];
-        newPolls[selectedPollIndex].pollDescription = e.target.value;
-        return newPolls;
-      });
-    },
-    [selectedPollIndex],
-  );
-
-  const handleOptionTitle = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      setPolls((prev) => {
-        const newPolls = [...prev];
-        newPolls[selectedPollIndex].pollOptions[selectedOptionIndex].pollOptionText =
-          e.target.value;
-        return newPolls;
-      });
-    },
-    [selectedPollIndex, selectedOptionIndex],
-  );
-
-  const addPoll = useCallback(() => {
-    const newPoll = createPoll(polls.length);
-
-    setPolls((prev) => [...prev, newPoll]);
-    setSelectedPollIndex(polls.length);
-    setSelectedOptionIndex(0);
-  }, [polls]);
-
-  const controlButton = useCallback(() => {
-    const currentScrollY = window.scrollY;
-    if (currentScrollY > lastScrollY.current) {
-      setDisplayButton(false);
-    } else {
-      setDisplayButton(true);
-    }
-    lastScrollY.current = currentScrollY;
-  }, []);
-
-  useEffect(() => {
-    window.addEventListener('scroll', controlButton);
-
-    return () => {
-      window.removeEventListener('scroll', controlButton);
-    };
-  }, [lastScrollY, controlButton]);
+const PostsNewPage = () => {
+  const {
+    postTitle,
+    handlePostTitle,
+    handlePostImage,
+    postImageUrl,
+    polls,
+    selectedPollIndex,
+    removePoll,
+    handleSelectedPollIndex,
+    addPoll,
+    handlePollCategory,
+    handlePollDescription,
+    setSelectedOptionIndex,
+    pollOptionImageUrls,
+    option,
+    poll,
+    selectedOptionIndex,
+    handleOptionTitle,
+    optionImageInputRef,
+    handleOptionImage,
+    displayButton,
+    isDisabled,
+    handleSubmit,
+  } = usePostsNew();
 
   return (
     <>
@@ -130,8 +56,8 @@ const PostCreatePage = () => {
 
             <Textarea
               placeholder="게시글 제목을 작성해주세요."
-              value={title}
-              onChange={handleTitle}
+              value={postTitle}
+              onChange={handlePostTitle}
               className="resize-none"
             />
           </div>
@@ -139,17 +65,17 @@ const PostCreatePage = () => {
           <div className="flex flex-col gap-2">
             <p className="text-body-3 text-gray-700">게시글 이미지</p>
 
-            <button className="flex h-[220px] flex-col items-center justify-center gap-2 border border-gray-300 bg-gray-200">
-              <Image
-                src="/svgs/image-upload-placeholder.svg"
-                alt="게시글 이미지 업로드"
-                width={40}
-                height={40}
-                style={{ width: 40, height: 40 }}
-              />
+            <label className="flex h-[220px] cursor-pointer flex-col items-center justify-center gap-2 bg-gray-200">
+              <input type="file" accept="image/*" onChange={handlePostImage} className="hidden" />
 
-              <p className="text-body-3 text-gray-400">클릭해서 이미지 업로드</p>
-            </button>
+              <Image
+                src={postImageUrl}
+                alt="이미지 업로드"
+                width={358}
+                height={220}
+                className="h-[220px] w-[358px] object-fill"
+              />
+            </label>
           </div>
         </section>
 
@@ -171,16 +97,18 @@ const PostCreatePage = () => {
                             alt="카테고리 삭제 버튼"
                             width={16}
                             height={16}
+                            className="h-[16px] w-[16px]"
                           />
                         </AlertDialogTrigger>
 
-                        <AlertDialogContent className="flex h-[294px] w-[358px] flex-col justify-between bg-white">
+                        <AlertDialogContent className="flex h-[294px] w-[358px] flex-col justify-between rounded-2xl bg-white">
                           <AlertDialogHeader className="items-center gap-4">
                             <Image
                               src="/svgs/yellow-warn.svg"
                               alt="경고 아이콘"
                               width={64}
                               height={64}
+                              className="h-[64px] w-[64px]"
                             />
 
                             <div className="flex flex-col items-center gap-1">
@@ -230,11 +158,13 @@ const PostCreatePage = () => {
             {polls.length < MAX_POLL_COUNT && (
               <Button variant="chip-primary" onClick={addPoll} className="flex items-center gap-2">
                 <p>카테고리 추가</p>
+
                 <Image
                   src="/svgs/gray-plus-icon.svg"
                   alt="카테고리 추가 버튼"
                   width={16}
                   height={16}
+                  className="h-[16px] w-[16px]"
                 />
               </Button>
             )}
@@ -279,11 +209,11 @@ const PostCreatePage = () => {
                     >
                       <div className="flex h-[140px] w-full items-center justify-center rounded-t-lg bg-gray-200">
                         <Image
-                          src="/svgs/image-upload-placeholder.svg"
-                          alt="게시글 이미지 업로드"
-                          width={40}
-                          height={40}
-                          style={{ width: 40, height: 40 }}
+                          src={pollOptionImageUrls[index]}
+                          alt="선택지 이미지"
+                          width={171}
+                          height={140}
+                          className="h-[140px] w-[171px] object-fill"
                         />
                       </div>
 
@@ -301,7 +231,7 @@ const PostCreatePage = () => {
         <section className="flex flex-col gap-2 px-4 py-8">
           <h4 className="text-sub-title-4">{option.pollOptionText}</h4>
 
-          <section className="flex flex-col gap-4 rounded-lg border bg-gray-100 p-6">
+          <section className="flex flex-col gap-4 rounded-lg border bg-gray-100 px-4 py-6">
             <div className="flex flex-col gap-2">
               <p className="text-body-3 text-gray-700">선택지 이름</p>
 
@@ -315,17 +245,23 @@ const PostCreatePage = () => {
             <div className="flex flex-col gap-2">
               <p className="text-body-3 text-gray-700">선택지 이미지</p>
 
-              <button className="flex h-[220px] flex-col items-center justify-center gap-2 border border-gray-300 bg-gray-200">
-                <Image
-                  src="/svgs/image-upload-placeholder.svg"
-                  alt="선택지 이미지 업로드"
-                  width={40}
-                  height={40}
-                  style={{ width: 40, height: 40 }}
+              <label className="flex cursor-pointer flex-col items-center justify-center gap-2 border border-gray-300 bg-gray-200">
+                <input
+                  ref={optionImageInputRef}
+                  type="file"
+                  accept="image/*"
+                  onChange={handleOptionImage}
+                  className="hidden"
                 />
 
-                <p className="text-body-3 text-gray-400">클릭해서 이미지 업로드</p>
-              </button>
+                <Image
+                  src={pollOptionImageUrls[selectedOptionIndex]}
+                  alt="선택지 이미지 업로드"
+                  width={326}
+                  height={200}
+                  className="h-[200px] w-[326px] object-fill"
+                />
+              </label>
             </div>
           </section>
         </section>
@@ -336,7 +272,13 @@ const PostCreatePage = () => {
           displayButton ? 'translate-y-0 opacity-100' : 'translate-y-full opacity-0'
         }`}
       >
-        <Button variant="action" font="sub-title-4" className="w-full">
+        <Button
+          variant="action"
+          font="sub-title-4"
+          className="w-full"
+          disabled={isDisabled}
+          onClick={handleSubmit}
+        >
           등록
         </Button>
       </div>
@@ -344,4 +286,4 @@ const PostCreatePage = () => {
   );
 };
 
-export default PostCreatePage;
+export default PostsNewPage;
