@@ -1,58 +1,80 @@
 'use client';
 
-import { useState } from 'react';
 import Image from 'next/image';
-import { Button } from '@/components/shadcn-ui/ui/button';
+
 import Overlay from '@/components/overlay';
-import { PollOptionDTO } from '@/api/generated/model';
+import { Button } from '@/components/shadcn-ui/ui/button';
+import { useCreateVote } from '@/api/generated/endpoints/vote/vote';
+import { PollOptionResponse, PollDetailResponse } from '@/api/generated/model';
 
 interface PollOptionsProps {
-  pollOptions: PollOptionDTO[] | undefined;
+  selectedPoll: PollDetailResponse | undefined;
+  onSelectPollOption: (options: PollOptionResponse) => void;
+  selectedPollOption: PollOptionResponse | undefined;
+  isDisabled: boolean;
 }
 
-const PollOptions = ({ pollOptions }: PollOptionsProps) => {
-  const [selectedPollOption, setSelectedPollOption] = useState<PollOptionDTO | null>(null);
+const PollOptions = ({
+  selectedPoll,
+  onSelectPollOption,
+  selectedPollOption,
+  isDisabled,
+}: PollOptionsProps) => {
+  const createVoteMutation = useCreateVote();
 
-  const handlePollOptionClick = (pollOption: PollOptionDTO) => {
-    setSelectedPollOption((prevOption) =>
-      prevOption?.pollOptionUid === pollOption.pollOptionUid ? null : pollOption,
+  const handleVote = (pollOption: PollOptionResponse) => {
+    createVoteMutation.mutate(
+      {
+        data: {
+          pollUid: selectedPoll?.pollUid,
+          selectedPollOptionUid: pollOption.pollOptionUid,
+        },
+      },
+      {
+        onSuccess: () => {
+          onSelectPollOption(pollOption);
+        },
+        onError: (error) => {
+          console.error('투표가 실패했습니다:', error);
+        },
+      },
     );
   };
 
   return (
-    <div className="grid w-[358px] grid-cols-2 gap-x-[16px] gap-y-4">
-      {pollOptions?.map((pollOption) => (
+    <div className="grid w-[358px] auto-rows-fr grid-cols-2 gap-x-[16px] gap-y-4">
+      {selectedPoll?.pollOptions?.map((pollOption) => (
         <Button
           key={pollOption.pollOptionUid}
-          className={`relative flex flex-col overflow-hidden rounded-lg transition duration-300 ease-in-out ${
+          className={`relative flex flex-col overflow-hidden rounded-lg ${
             selectedPollOption?.pollOptionUid === pollOption.pollOptionUid && 'ring-1 ring-gray-800'
           }`}
-          onClick={() => handlePollOptionClick(pollOption)}
+          onClick={() => handleVote(pollOption)}
+          disabled={isDisabled}
         >
-          {/* TODO: API에서 제공하는 이미지 값으로 변경 및 props 주석 해제 */}
-          <Image
-            src="/images/image(6).png"
-            alt="게시글 이미지"
-            width={390}
-            height={140}
-            // placeholder="blur"
-            // blurDataURL={pollOption.image}
-            className="h-[140px] object-cover"
-          />
-          <div className="flex min-h-[37px] w-full items-center justify-center rounded-b-lg border border-gray-200 bg-gray-50 px-4 py-2">
-            <span
-              className={`text-caption-1 transition-colors duration-300 ${
-                selectedPollOption?.pollOptionUid === pollOption.pollOptionUid
-                  ? 'text-black'
-                  : 'text-gray-700'
-              }`}
-            >
-              {pollOption.pollOptionText}
-            </span>
+          <div className="flex h-full flex-col">
+            <Image
+              src={pollOption?.imageUrl}
+              alt="투표 옵션 이미지"
+              width={390}
+              height={140}
+              placeholder="blur"
+              blurDataURL={pollOption?.imageUrl}
+              className="h-[140px] object-cover"
+            />
+            <div className="flex flex-grow items-center justify-center rounded-b-lg border border-gray-200 bg-gray-50 px-4 py-2">
+              <span
+                className={`text-caption-1 transition-colors duration-300 ${
+                  selectedPollOption?.pollOptionUid === pollOption.pollOptionUid
+                    ? 'text-black'
+                    : 'text-gray-700'
+                }`}
+              >
+                {pollOption.pollOptionText}
+              </span>
+            </div>
           </div>
-
-          {/*전체 옵션에 대한 득표율 오버레이 */}
-          <Overlay pollOption={pollOption} selectedPollOption={selectedPollOption} />
+          <Overlay pollOption={pollOption} isDisabled={isDisabled} selectedPoll={selectedPoll} />
         </Button>
       ))}
     </div>
