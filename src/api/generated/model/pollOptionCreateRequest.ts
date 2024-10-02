@@ -7,6 +7,8 @@
  */
 
 export interface PollOptionCreateRequest {
+  fileName: string;
+  fileUid: string;
   pollOptionSeq: number;
   pollOptionText: string;
 }

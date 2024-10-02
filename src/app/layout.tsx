@@ -6,7 +6,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="ko">
       <body>
-        <div className="mx-auto w-[390px]">
+        <div
+          className="mx-auto w-[390px]"
+          style={{ '--layout-width': '390px' } as React.CSSProperties}
+        >
           <TanstackQueryProviders>
             <DynamicHeader />
             {children}

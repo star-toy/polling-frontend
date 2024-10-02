@@ -1,22 +1,33 @@
-import { PollOptionDTO } from '@/api/generated/model';
+import { PollOptionResponse, PollDetailResponse } from '@/api/generated/model';
 
 interface OverlayProps {
-  selectedPollOption: PollOptionDTO | null;
-  pollOption: PollOptionDTO;
+  pollOption: PollOptionResponse;
+  isDisabled: boolean;
+  selectedPoll: PollDetailResponse | undefined;
 }
 
 // Todo: 공통 컴포넌트로 분리하기
-const Overlay = ({ selectedPollOption, pollOption }: OverlayProps) => {
+const Overlay = ({ pollOption, isDisabled, selectedPoll }: OverlayProps) => {
+  const totalVotes = selectedPoll?.pollOptions?.reduce(
+    (sum: number, pollOption: PollOptionResponse) => sum + pollOption.votedCount!,
+    0,
+  );
+
+  const getVotePercentage = (votedCount: number | undefined) => {
+    return `${((votedCount! / totalVotes!) * 100).toFixed(1)}%`;
+  };
+
   return (
     <div
-      className={`bg-background-gradient absolute left-0 top-0 flex h-[140px] w-full items-center justify-center transition duration-300 ease-in-out ${
-        selectedPollOption ? 'opacity-100' : 'opacity-0'
+      className={`absolute left-0 top-0 flex h-[140px] w-full items-center justify-center bg-background-gradient transition duration-300 ease-in-out ${
+        isDisabled ? 'opacity-100' : 'opacity-0'
       }`}
     >
       <div className="flex flex-col items-center">
         <span className="text-caption2 text-gray-50">득표율</span>
-        {/* TODO: API에서 제공하는 득표율 값으로 변경 */}
-        <span className="text-subTitle3 text-gray-50">{pollOption.pollOptionSeq}%</span>
+        <span className="text-subTitle3 text-gray-50">
+          {getVotePercentage(pollOption.votedCount)}
+        </span>
       </div>
     </div>
   );

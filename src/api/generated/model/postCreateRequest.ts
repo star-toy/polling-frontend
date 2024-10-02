@@ -8,6 +8,8 @@
 import type { PollCreateRequest } from './pollCreateRequest';
 
 export interface PostCreateRequest {
+  fileName: string;
+  fileUid: string;
   polls: PollCreateRequest[];
   title: string;
 }

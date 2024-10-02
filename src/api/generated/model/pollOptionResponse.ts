@@ -7,8 +7,9 @@
  */
 
 export interface PollOptionResponse {
-  pollOptionSeq?: number;
-  pollOptionText?: string;
-  pollOptionUid?: string;
-  votedCount?: number;
+  imageUrl: string;
+  pollOptionSeq: number;
+  pollOptionText: string;
+  pollOptionUid: string;
+  votedCount: number;
 }

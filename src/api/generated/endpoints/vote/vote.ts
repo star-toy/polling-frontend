@@ -11,64 +11,12 @@ import type {
   UseMutationOptions,
   UseMutationResult,
 } from '@tanstack/react-query';
-import type { SubmitVoteParams, VoteCreateRequest, VoteCreateResponse } from '../../model';
+import type { VoteCreateRequest, VoteCreateResponse } from '../../model';
 import { customInstance } from '../../mutator/custom-instance';
 
-export const submitVote = (params: SubmitVoteParams) => {
-  return customInstance<string>({ url: `/v1/vote`, method: 'POST', params });
-};
-
-export const getSubmitVoteMutationOptions = <TError = unknown, TContext = unknown>(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof submitVote>>,
-    TError,
-    { params: SubmitVoteParams },
-    TContext
-  >;
-}): UseMutationOptions<
-  Awaited<ReturnType<typeof submitVote>>,
-  TError,
-  { params: SubmitVoteParams },
-  TContext
-> => {
-  const { mutation: mutationOptions } = options ?? {};
-
-  const mutationFn: MutationFunction<
-    Awaited<ReturnType<typeof submitVote>>,
-    { params: SubmitVoteParams }
-  > = (props) => {
-    const { params } = props ?? {};
-
-    return submitVote(params);
-  };
-
-  return { mutationFn, ...mutationOptions };
-};
-
-export type SubmitVoteMutationResult = NonNullable<Awaited<ReturnType<typeof submitVote>>>;
-
-export type SubmitVoteMutationError = unknown;
-
-export const useSubmitVote = <TError = unknown, TContext = unknown>(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof submitVote>>,
-    TError,
-    { params: SubmitVoteParams },
-    TContext
-  >;
-}): UseMutationResult<
-  Awaited<ReturnType<typeof submitVote>>,
-  TError,
-  { params: SubmitVoteParams },
-  TContext
-> => {
-  const mutationOptions = getSubmitVoteMutationOptions(options);
-
-  return useMutation(mutationOptions);
-};
 export const createVote = (voteCreateRequest: VoteCreateRequest) => {
   return customInstance<VoteCreateResponse>({
-    url: `/v1/vote/uid`,
+    url: `/v1/vote`,
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     data: voteCreateRequest,

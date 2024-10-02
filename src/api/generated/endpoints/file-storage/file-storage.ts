@@ -18,19 +18,21 @@ import type {
   UseQueryOptions,
   UseQueryResult,
 } from '@tanstack/react-query';
-import type { FileStorageDTO, UploadFile200, UploadFileBody, UploadFileParams } from '../../model';
+import type { FileStorageDTO, UploadFileBody } from '../../model';
 import { customInstance } from '../../mutator/custom-instance';
 
-export const uploadFile = (uploadFileBody: UploadFileBody, params: UploadFileParams) => {
+/**
+ * @summary 파일 업로드
+ */
+export const uploadFile = (uploadFileBody: UploadFileBody) => {
   const formData = new FormData();
   formData.append('file', uploadFileBody.file);
 
-  return customInstance<UploadFile200>({
+  return customInstance<FileStorageDTO>({
     url: `/v1/files/upload`,
     method: 'POST',
     headers: { 'Content-Type': 'multipart/form-data' },
     data: formData,
-    params,
   });
 };
 
@@ -38,24 +40,24 @@ export const getUploadFileMutationOptions = <TError = unknown, TContext = unknow
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof uploadFile>>,
     TError,
-    { data: UploadFileBody; params: UploadFileParams },
+    { data: UploadFileBody },
     TContext
   >;
 }): UseMutationOptions<
   Awaited<ReturnType<typeof uploadFile>>,
   TError,
-  { data: UploadFileBody; params: UploadFileParams },
+  { data: UploadFileBody },
   TContext
 > => {
   const { mutation: mutationOptions } = options ?? {};
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof uploadFile>>,
-    { data: UploadFileBody; params: UploadFileParams }
+    { data: UploadFileBody }
   > = (props) => {
-    const { data, params } = props ?? {};
+    const { data } = props ?? {};
 
-    return uploadFile(data, params);
+    return uploadFile(data);
   };
 
   return { mutationFn, ...mutationOptions };
@@ -65,23 +67,29 @@ export type UploadFileMutationResult = NonNullable<Awaited<ReturnType<typeof upl
 export type UploadFileMutationBody = UploadFileBody;
 export type UploadFileMutationError = unknown;
 
+/**
+ * @summary 파일 업로드
+ */
 export const useUploadFile = <TError = unknown, TContext = unknown>(options?: {
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof uploadFile>>,
     TError,
-    { data: UploadFileBody; params: UploadFileParams },
+    { data: UploadFileBody },
     TContext
   >;
 }): UseMutationResult<
   Awaited<ReturnType<typeof uploadFile>>,
   TError,
-  { data: UploadFileBody; params: UploadFileParams },
+  { data: UploadFileBody },
   TContext
 > => {
   const mutationOptions = getUploadFileMutationOptions(options);
 
   return useMutation(mutationOptions);
 };
+/**
+ * @summary fileUid를 이용하여 파일 URL을 조회
+ */
 export const getFileByUid = (fileUid: string, signal?: AbortSignal) => {
   return customInstance<FileStorageDTO>({ url: `/v1/files/${fileUid}`, method: 'GET', signal });
 };
@@ -142,6 +150,9 @@ export function useGetFileByUid<TData = Awaited<ReturnType<typeof getFileByUid>>
     query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getFileByUid>>, TError, TData>>;
   },
 ): UseQueryResult<TData, TError> & { queryKey: QueryKey };
+/**
+ * @summary fileUid를 이용하여 파일 URL을 조회
+ */
 
 export function useGetFileByUid<TData = Awaited<ReturnType<typeof getFileByUid>>, TError = unknown>(
   fileUid: string,
