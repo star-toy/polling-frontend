@@ -1,25 +1,19 @@
-'use client';
+import { dehydrate, HydrationBoundary, QueryClient } from '@tanstack/react-query';
+import { findAllPostsList } from '@/api/generated/endpoints/post/post';
+import MainPageClient from '@/components/pages/main-page/main-page-client';
 
-import Image from 'next/image';
-import Link from 'next/link';
+export default async function Page() {
+  const queryClient = new QueryClient();
+  await queryClient.prefetchQuery({
+    queryKey: ['posts'],
+    queryFn: () => findAllPostsList(),
+  });
 
-import '@/libs/axios-interceptor';
+  const dehydratedState = dehydrate(queryClient);
 
-import Banner from '@/components/pages/main-page/banner';
-import Posts from '@/components/pages/main-page/posts';
-
-const MainPage = () => {
   return (
-    <>
-      <Banner />
-      <Posts />
-      <div className="fixed bottom-0 left-0 right-0 mx-auto w-[375px]">
-        <Link href="/posts/new" className="absolute bottom-[30px] right-[21px]">
-          <Image src="/svgs/plus-icon.svg" alt="게시글 생성 버튼" width={64} height={64} />
-        </Link>
-      </div>
-    </>
+    <HydrationBoundary state={dehydratedState}>
+      <MainPageClient />
+    </HydrationBoundary>
   );
-};
-
-export default MainPage;
+}
