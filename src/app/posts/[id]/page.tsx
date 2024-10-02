@@ -3,7 +3,6 @@
 import Image from 'next/image';
 import { useState, useEffect } from 'react';
 import { AxiosError } from 'axios';
-
 import PollCategories from '@/components/pages/post-detail-page/poll-categories';
 import PollOptions from '@/components/pages/post-detail-page/poll-options';
 import { useGetPostByUid } from '@/api/generated/endpoints/post/post';
@@ -17,7 +16,10 @@ interface PostDetailPageProps {
 
 const PostDetailPage = ({ params }: PostDetailPageProps) => {
   const id = String(params.id);
-  const { data, isLoading, error } = useGetPostByUid<PostDetailResponse, AxiosError | Error>(id);
+  const { data, isLoading, error, queryKey } = useGetPostByUid<
+    PostDetailResponse,
+    AxiosError | Error
+  >(id);
   const [selectedPollCategory, setSelectedPollCategory] = useState<string | undefined>(undefined);
   const [selectedPollOptions, setSelectedPollOptions] = useState<
     Record<string, PollOptionResponse>
@@ -26,13 +28,16 @@ const PostDetailPage = ({ params }: PostDetailPageProps) => {
   const selectedPoll = data?.polls?.find((poll) => poll.pollCategory === selectedPollCategory);
 
   const handleSelectPollOption = (option: PollOptionResponse) => {
-    setSelectedPollOptions((prev) => ({ ...prev, [selectedPollCategory!]: option }));
+    const updatedOptions = { ...selectedPollOptions, [selectedPollCategory!]: option };
+    setSelectedPollOptions(updatedOptions);
+
+    localStorage.setItem(`post-${id}-votes`, JSON.stringify(updatedOptions));
 
     const currentIndex = data?.polls?.findIndex(
       (poll) => poll.pollCategory === selectedPollCategory,
     );
-    const nextCategory = data?.polls?.[currentIndex! + 1]?.pollCategory;
 
+    const nextCategory = data?.polls?.[currentIndex! + 1]?.pollCategory;
     if (nextCategory) {
       setTimeout(() => {
         setSelectedPollCategory(nextCategory);
@@ -41,9 +46,17 @@ const PostDetailPage = ({ params }: PostDetailPageProps) => {
   };
 
   useEffect(() => {
-    const firstCategory = data?.polls?.[0]?.pollCategory;
-    setSelectedPollCategory(firstCategory);
-  }, [data]);
+    if (data?.polls) {
+      const savedVotes = localStorage.getItem(`post-${id}-votes`);
+      if (savedVotes) {
+        setSelectedPollOptions(JSON.parse(savedVotes));
+      }
+
+      if (!selectedPollCategory) {
+        setSelectedPollCategory(data.polls[0]?.pollCategory);
+      }
+    }
+  }, [data, id, selectedPollCategory]);
 
   if (isLoading) return <div>로딩중...</div>;
   if (error) return <div>{error.message}</div>;
@@ -55,7 +68,6 @@ const PostDetailPage = ({ params }: PostDetailPageProps) => {
         <h2 className="text-sub-title-2">투표</h2>
         <p className="text-sub-title-4">{data?.title}</p>
       </div>
-
       {data?.imageUrl && (
         <Image
           src={data?.imageUrl}
@@ -66,7 +78,6 @@ const PostDetailPage = ({ params }: PostDetailPageProps) => {
           blurDataURL={data?.imageUrl}
         />
       )}
-
       {/* 투표 컨텐츠 섹션 */}
       <div className="px-4 pb-[27px] pt-8">
         <PollCategories
@@ -76,12 +87,12 @@ const PostDetailPage = ({ params }: PostDetailPageProps) => {
         />
         <p className="mb-2 text-body-1">{selectedPoll?.pollDescription}</p>
         <div className="mb-6 border border-gray-200" />
-
         <PollOptions
           selectedPoll={selectedPoll}
           onSelectPollOption={handleSelectPollOption}
           selectedPollOption={selectedPollOptions[selectedPollCategory!]}
           isDisabled={!!selectedPollOptions[selectedPollCategory!]}
+          queryKey={queryKey}
         />
       </div>
     </>

@@ -1,6 +1,7 @@
 'use client';
 
 import Image from 'next/image';
+import { useQueryClient } from '@tanstack/react-query';
 
 import Overlay from '@/components/overlay';
 import { Button } from '@/components/shadcn-ui/ui/button';
@@ -12,6 +13,7 @@ interface PollOptionsProps {
   onSelectPollOption: (options: PollOptionResponse) => void;
   selectedPollOption: PollOptionResponse | undefined;
   isDisabled: boolean;
+  queryKey: readonly unknown[];
 }
 
 const PollOptions = ({
@@ -19,7 +21,9 @@ const PollOptions = ({
   onSelectPollOption,
   selectedPollOption,
   isDisabled,
+  queryKey,
 }: PollOptionsProps) => {
+  const queryClient = useQueryClient();
   const createVoteMutation = useCreateVote();
 
   const handleVote = (pollOption: PollOptionResponse) => {
@@ -33,6 +37,7 @@ const PollOptions = ({
       {
         onSuccess: () => {
           onSelectPollOption(pollOption);
+          queryClient.invalidateQueries({ queryKey });
         },
         onError: (error) => {
           console.error('투표가 실패했습니다:', error);
