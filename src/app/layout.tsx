@@ -12,7 +12,7 @@ const pretendard = localFont({
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="kr" className={`${pretendard.variable}`}>
+    <html lang="ko" className={`${pretendard.variable}`}>
       <body className={pretendard.className}>
         <div className="mx-auto w-[390px]">
           <TanstackQueryProviders>
