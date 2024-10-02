@@ -1,6 +1,7 @@
 import localFont from 'next/font/local';
 import TanstackQueryProviders from '@/utils/tanstack-query-provider';
 import DynamicHeader from '@/components/header/dynamic-header';
+import MicrosoftClarity from '@/metrics/microsoft-clarity';
 import '../styles/globals.css';
 
 const pretendard = localFont({
@@ -22,6 +23,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <DynamicHeader />
             {children}
           </TanstackQueryProviders>
+          <MicrosoftClarity />
         </div>
       </body>
     </html>
