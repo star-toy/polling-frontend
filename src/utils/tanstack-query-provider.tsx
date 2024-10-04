@@ -32,7 +32,7 @@ interface TanstackQueryProvidersProps {
   children: ReactNode;
 }
 
-const TanstackQueryProviders = ({ children }: TanstackQueryProvidersProps) => {
+const TanstackQueryProvider = ({ children }: TanstackQueryProvidersProps) => {
   const queryClient = getQueryClient();
 
   return (
@@ -43,4 +43,4 @@ const TanstackQueryProviders = ({ children }: TanstackQueryProvidersProps) => {
   );
 };
 
-export default TanstackQueryProviders;
+export default TanstackQueryProvider;

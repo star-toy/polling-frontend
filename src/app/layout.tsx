@@ -1,5 +1,5 @@
 import localFont from 'next/font/local';
-import TanstackQueryProviders from '@/utils/tanstack-query-provider';
+import TanstackQueryProvider from '@/utils/tanstack-query-provider';
 import DynamicHeader from '@/components/header/dynamic-header';
 import MicrosoftClarity from '@/metrics/microsoft-clarity';
 import '../styles/globals.css';
@@ -19,10 +19,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           className="mx-auto w-[390px]"
           style={{ '--layout-width': '390px' } as React.CSSProperties}
         >
-          <TanstackQueryProviders>
+          <TanstackQueryProvider>
             <DynamicHeader />
             {children}
-          </TanstackQueryProviders>
+          </TanstackQueryProvider>
           <MicrosoftClarity />
         </div>
       </body>
