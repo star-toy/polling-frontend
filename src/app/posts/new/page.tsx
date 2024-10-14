@@ -32,7 +32,6 @@ const PostsNewPage = () => {
     addPoll,
     handlePollCategory,
     handlePollDescription,
-    setSelectedOptionIndex,
     pollOptionImageUrls,
     option,
     poll,
@@ -45,6 +44,8 @@ const PostsNewPage = () => {
     handleSubmit,
     submitButtonRef,
     isSubmitButtonVisible,
+    optionFormRef,
+    selectOption,
   } = usePostsNew();
 
   return (
@@ -207,7 +208,9 @@ const PostsNewPage = () => {
                     <Button
                       className="flex w-[171px] flex-col"
                       key={index}
-                      onClick={() => setSelectedOptionIndex(index)}
+                      onClick={() => {
+                        selectOption(index);
+                      }}
                     >
                       <div className="flex h-[140px] w-full items-center justify-center rounded-t-lg bg-gray-200">
                         <Image
@@ -230,7 +233,7 @@ const PostsNewPage = () => {
           </section>
         </section>
 
-        <section className="flex flex-col gap-2 px-4 py-8">
+        <section ref={optionFormRef} className="flex flex-col gap-2 px-4 py-8">
           <h4 className="text-sub-title-4">{option.pollOptionText}</h4>
 
           <section className="flex flex-col gap-4 rounded-lg border bg-gray-100 px-4 py-6">

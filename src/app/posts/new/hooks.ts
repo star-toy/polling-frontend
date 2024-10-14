@@ -63,6 +63,7 @@ const usePostsNew = () => {
   const optionImageInputRef = useRef<HTMLInputElement>(null);
   const lastScrollY = useRef(0);
   const submitButtonRef = useRef(null);
+  const optionFormRef = useRef<HTMLElement>(null);
 
   const [postTitle, setPostTitle] = useState('');
   const [postImage, setPostImage] = useState<null | File>(null);
@@ -86,7 +87,7 @@ const usePostsNew = () => {
   const isDisabled = useMemo(() => {
     if (!postTitle || !postImage) return true;
 
-    return polls.every((poll, pollIndex) => {
+    return polls.some((poll, pollIndex) => {
       if (!poll.pollCategory || !poll.pollDescription) return true;
 
       return poll.pollOptions.some((option, optionIndex) => {
@@ -131,7 +132,15 @@ const usePostsNew = () => {
   }, [polls]);
   const removePoll = useCallback(() => {
     setPolls((prev) => prev.filter((_, index) => index !== selectedPollIndex));
+
+    setPollImages((prev) => {
+      const newPollImages = [...prev] as PollOptionImages;
+      newPollImages[selectedOptionIndex] = [null, null, null, null];
+      return newPollImages;
+    });
+
     setSelectedPollIndex(selectedOptionIndex ? selectedPollIndex - 1 : 0);
+
     setSelectedOptionIndex(0);
   }, [selectedPollIndex, selectedOptionIndex]);
 
@@ -156,6 +165,11 @@ const usePostsNew = () => {
     },
     [selectedPollIndex],
   );
+
+  const selectOption = useCallback((index: number) => {
+    setSelectedOptionIndex(index);
+    optionFormRef.current?.scrollIntoView({ behavior: 'smooth' });
+  }, []);
 
   const handleOptionTitle = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -274,6 +288,8 @@ const usePostsNew = () => {
     handleSubmit,
     submitButtonRef,
     isSubmitButtonVisible,
+    optionFormRef,
+    selectOption,
   };
 };
 
