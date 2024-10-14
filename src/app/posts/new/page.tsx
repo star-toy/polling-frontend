@@ -80,7 +80,7 @@ const PostsNewPage = () => {
         </section>
 
         <section className="mt-10 flex flex-col border-b border-gray-300">
-          <h2 className="px-4 text-sub-title-2">카테고리 추가</h2>
+          <h2 className="px-4 text-sub-title-2">카테고리</h2>
 
           <section className="my-6 flex flex-wrap gap-2 px-4">
             {polls.map((p, index) => {
@@ -157,7 +157,7 @@ const PostsNewPage = () => {
 
             {polls.length < MAX_POLL_COUNT && (
               <Button variant="chip-primary" onClick={addPoll} className="flex items-center gap-2">
-                <p>카테고리 추가</p>
+                <p>카테고리</p>
 
                 <Image
                   src="/svgs/gray-plus-icon.svg"

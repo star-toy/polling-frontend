@@ -128,9 +128,9 @@ const usePostsNew = () => {
   }, [polls]);
   const removePoll = useCallback(() => {
     setPolls((prev) => prev.filter((_, index) => index !== selectedPollIndex));
-    setSelectedPollIndex(selectedPollIndex - 1);
+    setSelectedPollIndex(selectedOptionIndex ? selectedPollIndex - 1 : 0);
     setSelectedOptionIndex(0);
-  }, [selectedPollIndex]);
+  }, [selectedPollIndex, selectedOptionIndex]);
 
   const handlePollCategory = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
