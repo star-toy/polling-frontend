@@ -131,7 +131,15 @@ const usePostsNew = () => {
   }, [polls]);
   const removePoll = useCallback(() => {
     setPolls((prev) => prev.filter((_, index) => index !== selectedPollIndex));
+
+    setPollImages((prev) => {
+      const newPollImages = [...prev] as PollOptionImages;
+      newPollImages[selectedOptionIndex] = [null, null, null, null];
+      return newPollImages;
+    });
+
     setSelectedPollIndex(selectedOptionIndex ? selectedPollIndex - 1 : 0);
+
     setSelectedOptionIndex(0);
   }, [selectedPollIndex, selectedOptionIndex]);
 
