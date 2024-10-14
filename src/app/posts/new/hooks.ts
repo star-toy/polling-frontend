@@ -86,7 +86,7 @@ const usePostsNew = () => {
   const isDisabled = useMemo(() => {
     if (!postTitle || !postImage) return true;
 
-    return polls.every((poll, pollIndex) => {
+    return polls.some((poll, pollIndex) => {
       if (!poll.pollCategory || !poll.pollDescription) return true;
 
       return poll.pollOptions.some((option, optionIndex) => {
