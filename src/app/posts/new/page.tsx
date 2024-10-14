@@ -43,11 +43,13 @@ const PostsNewPage = () => {
     displayButton,
     isDisabled,
     handleSubmit,
+    submitButtonRef,
+    isSubmitButtonVisible,
   } = usePostsNew();
 
   return (
     <>
-      <section className="my-6 flex flex-col">
+      <section className="mb-[88px] mt-6 flex flex-col">
         <section className="mx-4 flex flex-col gap-6">
           <h2 className="text-sub-title-2">게시글 등록</h2>
 
@@ -264,24 +266,37 @@ const PostsNewPage = () => {
               </label>
             </div>
           </section>
+
+          <Button
+            ref={submitButtonRef}
+            variant="action"
+            font="sub-title-4"
+            className="mt-2"
+            disabled={isDisabled}
+            onClick={handleSubmit}
+          >
+            등록
+          </Button>
         </section>
       </section>
 
-      <div
-        className={`fixed bottom-0 left-[50%] flex w-[var(--layout-width)] -translate-x-1/2 transform items-center justify-center bg-white px-4 py-6 shadow-[0_-8px_10px_0_rgba(0,0,0,0.1)] transition-all duration-300 ease-in-out ${
-          displayButton ? 'translate-y-0 opacity-100' : 'translate-y-full opacity-0'
-        }`}
-      >
-        <Button
-          variant="action"
-          font="sub-title-4"
-          className="w-full"
-          disabled={isDisabled}
-          onClick={handleSubmit}
+      {!isSubmitButtonVisible && (
+        <div
+          className={`fixed bottom-0 left-[50%] flex w-[var(--layout-width)] -translate-x-1/2 transform items-center justify-center bg-white px-4 py-6 shadow-[0_-8px_10px_0_rgba(0,0,0,0.1)] transition-all duration-300 ease-in-out ${
+            displayButton ? 'translate-y-0 opacity-100' : 'translate-y-full opacity-0'
+          }`}
         >
-          등록
-        </Button>
-      </div>
+          <Button
+            variant="action"
+            font="sub-title-4"
+            className="w-full"
+            disabled={isDisabled}
+            onClick={handleSubmit}
+          >
+            등록
+          </Button>
+        </div>
+      )}
     </>
   );
 };
