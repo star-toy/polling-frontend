@@ -71,3 +71,55 @@ export const useCreateVote = <TError = unknown, TContext = unknown>(options?: {
 
   return useMutation(mutationOptions);
 };
+export const deleteVote = (voteUid: string) => {
+  return customInstance<string>({ url: `/v1/vote/${voteUid}`, method: 'DELETE' });
+};
+
+export const getDeleteVoteMutationOptions = <TError = unknown, TContext = unknown>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof deleteVote>>,
+    TError,
+    { voteUid: string },
+    TContext
+  >;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof deleteVote>>,
+  TError,
+  { voteUid: string },
+  TContext
+> => {
+  const { mutation: mutationOptions } = options ?? {};
+
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof deleteVote>>,
+    { voteUid: string }
+  > = (props) => {
+    const { voteUid } = props ?? {};
+
+    return deleteVote(voteUid);
+  };
+
+  return { mutationFn, ...mutationOptions };
+};
+
+export type DeleteVoteMutationResult = NonNullable<Awaited<ReturnType<typeof deleteVote>>>;
+
+export type DeleteVoteMutationError = unknown;
+
+export const useDeleteVote = <TError = unknown, TContext = unknown>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof deleteVote>>,
+    TError,
+    { voteUid: string },
+    TContext
+  >;
+}): UseMutationResult<
+  Awaited<ReturnType<typeof deleteVote>>,
+  TError,
+  { voteUid: string },
+  TContext
+> => {
+  const mutationOptions = getDeleteVoteMutationOptions(options);
+
+  return useMutation(mutationOptions);
+};

@@ -7,6 +7,7 @@
  */
 
 export interface PollOptionResponse {
+  hasVoted: boolean;
   imageUrl: string;
   pollOptionSeq: number;
   pollOptionText: string;
