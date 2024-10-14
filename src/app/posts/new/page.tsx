@@ -43,11 +43,13 @@ const PostsNewPage = () => {
     displayButton,
     isDisabled,
     handleSubmit,
+    submitButtonRef,
+    isSubmitButtonVisible,
   } = usePostsNew();
 
   return (
     <>
-      <section className="my-6 flex flex-col">
+      <section className="mb-[88px] mt-6 flex flex-col">
         <section className="mx-4 flex flex-col gap-6">
           <h2 className="text-sub-title-2">게시글 등록</h2>
 
@@ -80,7 +82,7 @@ const PostsNewPage = () => {
         </section>
 
         <section className="mt-10 flex flex-col border-b border-gray-300">
-          <h2 className="px-4 text-sub-title-2">카테고리 추가</h2>
+          <h2 className="px-4 text-sub-title-2">카테고리</h2>
 
           <section className="my-6 flex flex-wrap gap-2 px-4">
             {polls.map((p, index) => {
@@ -157,7 +159,7 @@ const PostsNewPage = () => {
 
             {polls.length < MAX_POLL_COUNT && (
               <Button variant="chip-primary" onClick={addPoll} className="flex items-center gap-2">
-                <p>카테고리 추가</p>
+                <p>카테고리</p>
 
                 <Image
                   src="/svgs/gray-plus-icon.svg"
@@ -213,7 +215,7 @@ const PostsNewPage = () => {
                           alt="선택지 이미지"
                           width={171}
                           height={140}
-                          className="h-[140px] w-[171px] object-fill"
+                          className="h-[140px] w-[171px] rounded-t-lg object-fill"
                         />
                       </div>
 
@@ -264,24 +266,37 @@ const PostsNewPage = () => {
               </label>
             </div>
           </section>
+
+          <Button
+            ref={submitButtonRef}
+            variant="action"
+            font="sub-title-4"
+            className="mt-2"
+            disabled={isDisabled}
+            onClick={handleSubmit}
+          >
+            등록
+          </Button>
         </section>
       </section>
 
-      <div
-        className={`fixed bottom-0 left-[50%] flex w-[var(--layout-width)] -translate-x-1/2 transform items-center justify-center bg-white px-4 py-6 shadow-[0_-8px_10px_0_rgba(0,0,0,0.1)] transition-all duration-300 ease-in-out ${
-          displayButton ? 'translate-y-0 opacity-100' : 'translate-y-full opacity-0'
-        }`}
-      >
-        <Button
-          variant="action"
-          font="sub-title-4"
-          className="w-full"
-          disabled={isDisabled}
-          onClick={handleSubmit}
+      {!isSubmitButtonVisible && (
+        <div
+          className={`fixed bottom-0 left-[50%] flex w-[var(--layout-width)] -translate-x-1/2 transform items-center justify-center bg-white px-4 py-6 shadow-[0_-8px_10px_0_rgba(0,0,0,0.1)] transition-all duration-300 ease-in-out ${
+            displayButton ? 'translate-y-0 opacity-100' : 'translate-y-full opacity-0'
+          }`}
         >
-          등록
-        </Button>
-      </div>
+          <Button
+            variant="action"
+            font="sub-title-4"
+            className="w-full"
+            disabled={isDisabled}
+            onClick={handleSubmit}
+          >
+            등록
+          </Button>
+        </div>
+      )}
     </>
   );
 };

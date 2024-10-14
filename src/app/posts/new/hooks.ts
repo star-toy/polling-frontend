@@ -62,6 +62,7 @@ const usePostsNew = () => {
 
   const optionImageInputRef = useRef<HTMLInputElement>(null);
   const lastScrollY = useRef(0);
+  const submitButtonRef = useRef(null);
 
   const [postTitle, setPostTitle] = useState('');
   const [postImage, setPostImage] = useState<null | File>(null);
@@ -77,6 +78,8 @@ const usePostsNew = () => {
   const [selectedOptionIndex, setSelectedOptionIndex] = useState<number>(0);
 
   const [displayButton, setDisplayButton] = useState(true);
+
+  const [isSubmitButtonVisible, setIsSubmitButtonVisible] = useState(false);
 
   const poll = useMemo(() => polls[selectedPollIndex], [polls, selectedPollIndex]);
   const option = useMemo(() => poll.pollOptions[selectedOptionIndex], [poll, selectedOptionIndex]);
@@ -128,9 +131,9 @@ const usePostsNew = () => {
   }, [polls]);
   const removePoll = useCallback(() => {
     setPolls((prev) => prev.filter((_, index) => index !== selectedPollIndex));
-    setSelectedPollIndex(selectedPollIndex - 1);
+    setSelectedPollIndex(selectedOptionIndex ? selectedPollIndex - 1 : 0);
     setSelectedOptionIndex(0);
-  }, [selectedPollIndex]);
+  }, [selectedPollIndex, selectedOptionIndex]);
 
   const handlePollCategory = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -220,6 +223,25 @@ const usePostsNew = () => {
   }, [polls, postTitle, postImage, pollImages, router]);
 
   useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsSubmitButtonVisible(entry.isIntersecting);
+      },
+      { threshold: 0.1 },
+    );
+
+    if (submitButtonRef.current) {
+      observer.observe(submitButtonRef.current);
+    }
+
+    return () => {
+      if (submitButtonRef.current) {
+        observer.unobserve(submitButtonRef.current);
+      }
+    };
+  }, [submitButtonRef]);
+
+  useEffect(() => {
     window.addEventListener('scroll', controlButton);
 
     return () => {
@@ -250,6 +272,8 @@ const usePostsNew = () => {
     displayButton,
     isDisabled,
     handleSubmit,
+    submitButtonRef,
+    isSubmitButtonVisible,
   };
 };
 
