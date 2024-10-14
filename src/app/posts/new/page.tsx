@@ -213,7 +213,7 @@ const PostsNewPage = () => {
                           alt="선택지 이미지"
                           width={171}
                           height={140}
-                          className="h-[140px] w-[171px] object-fill"
+                          className="h-[140px] w-[171px] rounded-t-lg object-fill"
                         />
                       </div>
 
