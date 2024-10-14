@@ -17,7 +17,7 @@ const buttonVariants = cva(
           'bg-gray-100 text-gray-700 flex justify-center items-center px-2 py-4 rounded-md',
         'modal-action':
           'bg-gray-900 text-white flex justify-center items-center px-2 py-4 rounded-md',
-        'action': 'bg-gray-900 py-2 px-4 rounded-md text-white',
+        'action': 'bg-gray-900 py-2 px-4 rounded-md text-white disabled:bg-gray-400',
       },
       font: {
         'sub-title-1': 'text-[28px] leading-[150%] font-semibold',
