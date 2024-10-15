@@ -20,34 +20,28 @@ const PostDetailPage = ({ params }: PostDetailPageProps) => {
     PostDetailResponse,
     AxiosError | Error
   >(id);
+
   const [selectedPollCategory, setSelectedPollCategory] = useState<string | undefined>(undefined);
   const [selectedPollOptions, setSelectedPollOptions] = useState<
-    Record<string, PollOptionResponse>
+    Record<string, PollOptionResponse | null>
   >({});
+  const [voteUids, setVoteUids] = useState<Record<string, string | undefined>>({});
 
   const selectedPoll = data?.polls?.find((poll) => poll.pollCategory === selectedPollCategory);
 
-  const handleSelectPollOption = (option: PollOptionResponse) => {
+  const handleSelectPollOption = (option: PollOptionResponse | null) => {
     const updatedOptions = { ...selectedPollOptions, [selectedPollCategory!]: option };
     setSelectedPollOptions(updatedOptions);
 
-    localStorage.setItem(`post-${id}-votes`, JSON.stringify(updatedOptions));
-
-    const currentIndex = data?.polls?.findIndex(
-      (poll) => poll.pollCategory === selectedPollCategory,
+    localStorage.setItem(
+      `post-${id}-${selectedPollCategory}-votes`,
+      JSON.stringify(updatedOptions),
     );
-
-    const nextCategory = data?.polls?.[currentIndex! + 1]?.pollCategory;
-    if (nextCategory) {
-      setTimeout(() => {
-        setSelectedPollCategory(nextCategory);
-      }, 2000);
-    }
   };
 
   useEffect(() => {
     if (data?.polls) {
-      const savedVotes = localStorage.getItem(`post-${id}-votes`);
+      const savedVotes = localStorage.getItem(`post-${id}-${selectedPollCategory}-votes`);
       if (savedVotes) {
         setSelectedPollOptions(JSON.parse(savedVotes));
       }
@@ -88,10 +82,12 @@ const PostDetailPage = ({ params }: PostDetailPageProps) => {
         <p className="mb-2 text-body-1">{selectedPoll?.pollDescription}</p>
         <div className="mb-6 border border-gray-200" />
         <PollOptions
+          id={id}
           selectedPoll={selectedPoll}
           onSelectPollOption={handleSelectPollOption}
           selectedPollOption={selectedPollOptions[selectedPollCategory!]}
-          isDisabled={!!selectedPollOptions[selectedPollCategory!]}
+          voteUid={voteUids[selectedPollCategory!]}
+          setVoteUid={setVoteUids}
           queryKey={queryKey}
         />
       </div>
