@@ -17,7 +17,6 @@ const PollCategories = ({
   selectedPollCategory,
   onSelectedPollCategory,
 }: PollCategoriesProps) => {
-  // TODO: API 연동
   const { data, isLoading, error } = useGetPostByUid<PostDetailResponse, AxiosError | Error>(id);
   const categories = data?.polls?.map((poll) => poll.pollCategory);
 
@@ -42,7 +41,6 @@ const PollCategories = ({
           variant={getPollCategoryVariant(selectedPollCategory, category)}
           font={getPollCategoryFont(selectedPollCategory, category)}
           onClick={() => onSelectedPollCategory(category)}
-          className="transition duration-300 ease-in-out"
         >
           {category}
         </Button>
