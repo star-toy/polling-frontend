@@ -6,7 +6,6 @@ interface OverlayProps {
   selectedPoll: PollDetailResponse | undefined;
 }
 
-// Todo: 공통 컴포넌트로 분리하기
 const Overlay = ({ pollOption, isDisabled, selectedPoll }: OverlayProps) => {
   const totalVotes = selectedPoll?.pollOptions?.reduce(
     (sum: number, pollOption: PollOptionResponse) => sum + pollOption.votedCount!,
@@ -14,12 +13,20 @@ const Overlay = ({ pollOption, isDisabled, selectedPoll }: OverlayProps) => {
   );
 
   const getVotePercentage = (votedCount: number | undefined) => {
-    return `${((votedCount! / totalVotes!) * 100).toFixed(1)}%`;
+    if (!votedCount || totalVotes === 0) {
+      return '0%';
+    }
+    return `${((votedCount / totalVotes!) * 100).toFixed(1)}%`;
   };
+
+  // 투표 데이터가 존재하지 않으면 빈 화면을 반환
+  if (!selectedPoll || totalVotes === 0) {
+    return null;
+  }
 
   return (
     <div
-      className={`absolute left-0 top-0 flex h-[140px] w-full items-center justify-center bg-background-gradient transition duration-300 ease-in-out ${
+      className={`absolute left-0 top-0 flex h-[140px] w-full items-center justify-center bg-background-gradient ${
         isDisabled ? 'opacity-100' : 'opacity-0'
       }`}
     >
